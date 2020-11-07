@@ -11,6 +11,7 @@ namespace USML {
         string GetConfigurationPath();
 
         string GetLibraryPath();
+
         void Validate();
 
         void LoadAssembly(Action<Assembly> assemblyResult);
