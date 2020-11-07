@@ -8,12 +8,11 @@ namespace USMLCore {
     
         static void Main(string[] args) {
 
-            string modTemplatePath = @"C:\Users\redst\OneDrive\Área de Trabalho\model";
-            ModContentLoader loader = new ModContentLoader(modTemplatePath);
-            Console.WriteLine("Loading: "+loader.Name);
-            loader.Validate();
+            string modList = @"C:\Users\redst\OneDrive\Área de Trabalho\modList";
 
-            File.WriteAllText("logs.txt", ModContentLoader.TRACER.ToString());
+            Bookshelf bookshelf = new Bookshelf(modList);
+
+            File.WriteAllText("logs.txt", Tracer.GetSingleTrace().ToString());
         }
     
     }

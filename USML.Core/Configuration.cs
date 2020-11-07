@@ -1,26 +1,48 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using System.Diagnostics.CodeAnalysis;
+using System.Json;
 
 namespace USML {
 
-    public class Configuration : IConfig {
+    public class Configuration : IEquatable<Configuration> {
 
-        public string GetDriverClassPath() {
-            return "";
+        public string DriveClassPath { get; private set; }
+
+        public string Version { get; private set; }
+
+        public string Name { get; private set; }
+
+        public string Description { get; private set; }
+
+        public string FilePath { get; private set; }
+
+        public Configuration(JsonObject jsonObject, string file) 
+        {
+            Objects.RequireNotNull(jsonObject);
+         
+            DriveClassPath = JSONUtils.GetString(ref jsonObject, USMLDefaults.CONFIG_DRIVERCLASS_KEY);
+            Version = JSONUtils.GetString(ref jsonObject, USMLDefaults.CONFIG_VERSION_KEY);
+            Name = JSONUtils.GetString(ref jsonObject, USMLDefaults.CONFIG_NAME_KEY);
+            Description = JSONUtils.GetString(ref jsonObject, USMLDefaults.CONFIG_DESCRIPTION_KEY);
+            FilePath = file;
+        
         }
 
-        public string GetFile() {
-            return "file://";
+        public string GetFullName() 
+        {
+            return string.Concat(Name, " ", Version);
         }
 
-        public Dictionary<string, object> GetProperties() {
-            return null;
-        }
+        public bool Equals([NotNull] Configuration other) {
+            
+            if(other != null) {
+                return other.Name.Equals(Name) && other.Version.Equals(Version) || (other.FilePath.Equals(other.FilePath));
+            }
+            
+            throw new NullReferenceException("other cannot be null.");
 
-        public bool IsValid() {
-            return false;
         }
     }
 }

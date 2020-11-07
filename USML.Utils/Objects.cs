@@ -6,7 +6,7 @@ namespace USML {
 
     public class Objects {
 
-        private static E CheckIsNull<E>(E obj, bool throwException, string message, Exception inner)
+        private static E CheckIsNull<E>(ref E obj, bool throwException, string message, Exception inner)
         {
             if(obj != null) {
                 return obj;
@@ -23,19 +23,19 @@ namespace USML {
             return default;
         }
 
-        public static E RequireNotNull<E>(E obj, string message, Exception inner) 
+        public static E RequireNotNull<E>(ref E obj, string message, Exception inner) 
         {
-            return CheckIsNull(obj, true, message, inner);
+            return CheckIsNull(ref obj, true, message, inner);
         }
 
         public static E RequireNotNull<E>(E obj) 
         {
-            return RequireNotNull(obj, "This object cannot be null.", null);
+            return RequireNotNull(ref obj, "This object cannot be null.", null);
         }
 
-        public static E RequireNotNull<E>(E obj, string message) 
+        public static E RequireNotNull<E>(ref E obj, string message) 
         {
-            return RequireNotNull(obj, message, null);
+            return RequireNotNull(ref obj, message, null);
         }
     
     }

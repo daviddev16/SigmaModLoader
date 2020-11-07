@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace USML {
 
-    public interface IBaseLoader {
+    public interface IBaseInspector : IValidator {
 
         string GetRootPath();
 
@@ -12,9 +12,9 @@ namespace USML {
 
         string GetLibraryPath();
 
-        void Validate();
+        Configuration GetConfiguration();
 
-        void LoadAssembly(Action<Assembly> assemblyResult);
+        Assembly LoadAssembly();
 
     }
 
