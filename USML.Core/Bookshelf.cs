@@ -25,6 +25,8 @@ namespace USML {
                 return;
             }
 
+            Tracer.Log("Starting the BookShelf.");
+
             Inspectors = new HashSet<IBaseInspector>();
             ModPathArray = Directory.GetDirectories(ModsPath);
             
@@ -34,30 +36,40 @@ namespace USML {
 
                 if(modInspector.Validate()) 
                 {
-
-                    Tracer.Here(this);
-
-                    if(CheckDuplications(ref modInspector)) {
-
-                        Tracer.Warning("Duplication detected => \"" + modInspector.GetConfiguration().Name + "\".");
-                        Tracer.Warning("Please delete the duplication.");
+                    if(AddInspector(ref modInspector)) {
                         continue;
                     }
-
-                    Inspectors.Add(modInspector);
-
-                    string FullName = modInspector.GetConfiguration().GetFullName();
-                    Tracer.Log(string.Concat(FullName, " Added! [soon will be loaded properly]"));
-                    
-                    continue;
                 }
+
                 Tracer.Warning("\"" + ModDirectory + "\" failed.");
             }
+        }
+
+        public bool AddInspector(ref IBaseInspector baseInspector) 
+        {
+            Objects.RequireNotNull(baseInspector);
+            Tracer.Here(this);
+
+            if(CheckDuplications(ref baseInspector)) 
+            {
+                Tracer.Warning("Duplication detected: \"" + baseInspector.GetConfiguration().Name + "\".");
+                Tracer.Warning("Please delete the duplication.");
+                return true;
+            }
+
+            Inspectors.Add(baseInspector);
+
+            string FullName = baseInspector.GetConfiguration().GetFullName();
+            Tracer.Log(string.Concat(FullName, " added."));
+            return true;
 
         }
         
-        public void All(Action<IBaseInspector> inspectorAction) 
-        { 
+        public void AllSet(Action<IBaseInspector> inspectorAction) 
+        {
+            foreach(IBaseInspector inspectors in Inspectors) {
+                inspectorAction.Invoke(inspectors);
+            }
         }
 
         private bool CheckDuplications(ref IBaseInspector inspector) 
@@ -74,11 +86,19 @@ namespace USML {
 
         public bool Validate() 
         {
-            return Directory.Exists(ModsPath);
+            if(!File.GetAttributes(ModsPath).HasFlag(FileAttributes.Directory)) 
+            {
+                Tracer.Fatal("Mod path must be a directory.");
+                return false;
+            }
+
+            if(!Directory.Exists(ModsPath)) 
+            {
+                Tracer.Fail("Directory not found.");
+                return false;
+            }
+ 
+            return true;
         }
-    
-    
     }
-
-
 }
