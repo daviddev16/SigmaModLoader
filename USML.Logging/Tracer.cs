@@ -9,6 +9,7 @@ namespace USML {
     /// Provides method for the USML logging.
     /// <br>use all static methods</br>
     /// </summary>
+    [Documented(true)]
     public class Tracer {
 
         private readonly static Tracer TRACER = new Tracer();

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Json;
 
@@ -21,11 +19,11 @@ namespace USML {
         public Configuration(JsonObject jsonObject, string file) 
         {
             Objects.RequireNotNull(jsonObject);
-         
-            DriveClassPath = JSONUtils.GetString(ref jsonObject, USMLDefaults.CONFIG_DRIVERCLASS_KEY);
-            Version = JSONUtils.GetString(ref jsonObject, USMLDefaults.CONFIG_VERSION_KEY);
-            Name = JSONUtils.GetString(ref jsonObject, USMLDefaults.CONFIG_NAME_KEY);
-            Description = JSONUtils.GetString(ref jsonObject, USMLDefaults.CONFIG_DESCRIPTION_KEY);
+
+            DriveClassPath = Objects.GetString(ref jsonObject, USMLDefaults.CONFIG_DRIVERCLASS_KEY);
+            Version = Objects.GetString(ref jsonObject, USMLDefaults.CONFIG_VERSION_KEY).Trim();
+            Name = Objects.GetString(ref jsonObject, USMLDefaults.CONFIG_NAME_KEY).Trim();
+            Description = Objects.GetString(ref jsonObject, USMLDefaults.CONFIG_DESCRIPTION_KEY);
             FilePath = file;
         
         }

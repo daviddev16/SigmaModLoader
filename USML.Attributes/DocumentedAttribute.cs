@@ -1,0 +1,21 @@
+﻿using System;
+
+namespace USML {
+
+    /// <summary>
+    /// This attribute helps to indentify the documented classes/structures.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface, AllowMultiple = false)]
+    public class DocumentedAttribute : Attribute {
+
+        private bool Done;
+
+
+        /// <param name="done">if this class/struct is well-documented or complete</param>
+        public DocumentedAttribute(bool done) 
+        {
+            this.Done = done;
+        }
+    
+    }
+}
