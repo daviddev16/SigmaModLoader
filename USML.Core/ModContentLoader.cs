@@ -42,7 +42,6 @@ namespace USML {
                     TRACER.Log("Stage 2 OK!");
                 }
             }
-        
         }
 
         private bool CheckConfiguration()
