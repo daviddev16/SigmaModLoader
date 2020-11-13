@@ -4,7 +4,7 @@ using System.Json;
 
 namespace USML {
 
-    public class Configuration : IEquatable<Configuration> {
+    public sealed class Configuration : IEquatable<Configuration> {
 
         public string DriveClassPath { get; private set; }
 
@@ -33,14 +33,12 @@ namespace USML {
             return string.Concat(Name, " ", Version);
         }
 
-        public bool Equals([NotNull] Configuration other) {
-            
+        public bool Equals([NotNull] Configuration other) 
+        {
             if(other != null) {
                 return other.Name.Equals(Name) && other.Version.Equals(Version) || (other.FilePath.Equals(other.FilePath));
             }
-            
             throw new NullReferenceException("other cannot be null.");
-
         }
     }
 }

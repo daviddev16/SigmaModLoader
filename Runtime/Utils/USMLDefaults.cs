@@ -18,6 +18,10 @@ namespace USML {
         public static readonly string CONFIG_DESCRIPTION_KEY = "description";
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
+
+        public static bool CONSOLE_HIDE_EXCEPTION = false;
+
     }
 
 }

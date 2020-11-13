@@ -10,12 +10,19 @@ namespace USML {
 
         private bool Done;
 
-
         /// <param name="done">if this class/struct is well-documented or complete</param>
         public DocumentedAttribute(bool done) 
         {
             this.Done = done;
         }
-    
+
+        /// <summary>
+        /// returns if it's documented.
+        /// </summary>
+        public bool IsDone() 
+        {
+            return Done;
+        }
+
     }
 }

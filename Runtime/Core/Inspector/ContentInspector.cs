@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace USML {
 
-    public class ContentInspector : IBaseInspector {
+    public sealed class ContentInspector : IBaseInspector {
 
         private string RootFolderPath = null;
 
@@ -35,14 +35,16 @@ namespace USML {
             Tracer.Log("Inspecting folder \"" + Name + "\"...");
             
             if(CheckFiles() && CheckConfiguration() && HasAnyLibrary()){
-                Tracer.Log("Modification found!");
+                Tracer.Log("Mod Folder found!");
                 return true;
             }
-            Tracer.Warning("Something goes wrong while the inspection of \"" + Name + "\"");
+
+            Tracer.Warning("Something goes wrong while inspection of \"" + Name + "\"");
             return false;
         }
 
-        private bool CheckFiles() {
+        private bool CheckFiles() 
+        {
             try {
 
                 if(!Directory.Exists(RootFolderPath)) 
@@ -92,7 +94,7 @@ namespace USML {
             }
             catch(Exception e) {
                 Tracer.Fail("Failed to inspect the config file \"" + USMLDefaults.USMLCONFIG_FILE + "\"");
-                Tracer.Exception(e, false);
+                Tracer.Exception(e);
                 return false;
             }
 

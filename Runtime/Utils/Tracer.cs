@@ -108,11 +108,10 @@ namespace USML {
         /// Print a full exception message with the stacktrace include
         /// </summary>
         /// <param name="e">The thrown exception</param>
-        /// <param name="hide">if the Tracer will hide in the Console</param>
-        public static void Exception(Exception e, bool hide) {
+        public static void Exception(Exception e) {
             Throw(e.GetType().Name, e.Message);
             foreach(string line in e.StackTrace.Split("\n")) {
-                TRACER.stacktrace(line, hide);
+                TRACER.stacktrace(line, USMLDefaults.CONSOLE_HIDE_EXCEPTION);
             }
         }
 

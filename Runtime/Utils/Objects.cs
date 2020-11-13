@@ -78,6 +78,7 @@ namespace USML {
         /// <param name="jObject">The reference of the JsonObject</param>
         /// <param name="key">The key</param>
         /// 
+        [Nullable]
         public static string GetString([NotNull] ref JsonObject jObject, string key) {
             string value = Get(ref jObject, key).ToString().Trim();
             return value.Substring(1, value.Length - 2);
@@ -92,6 +93,7 @@ namespace USML {
         /// <param name="jObject">The reference of the JsonObject</param>
         /// <param name="key">The key</param>
         /// 
+        [Nullable]
         public static object Get([NotNull] ref JsonObject jObject, string key) {
             JsonValue value = GetValue(ref jObject, key);
 

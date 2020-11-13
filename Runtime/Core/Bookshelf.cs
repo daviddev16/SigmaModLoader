@@ -5,8 +5,7 @@ using System.IO;
 
 namespace USML {
 
-    public class Bookshelf : IValidator {
-
+    public sealed class Bookshelf : IValidator {
 
         public HashSet<IBaseInspector> Inspectors { get; private set; }
 
@@ -41,7 +40,7 @@ namespace USML {
                     }
                 }
 
-                Tracer.Warning("\"" + ModDirectory + "\" failed.");
+                Tracer.Warning("\"" + modInspector.GetConfiguration().Name + "\" failed.");
             }
         }
 

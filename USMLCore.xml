@@ -12,6 +12,11 @@
         <member name="M:USML.DocumentedAttribute.#ctor(System.Boolean)">
             <param name="done">if this class/struct is well-documented or complete</param>
         </member>
+        <member name="M:USML.DocumentedAttribute.IsDone">
+            <summary>
+            returns if it's documented.
+            </summary>
+        </member>
         <member name="T:USML.NullableAttribute">
             <summary>
             This attribute can be added in methods that can returns a null reference.
@@ -29,89 +34,6 @@
              Validate checks all needed conditions to make the inherit class works
              </summary>
             
-        </member>
-        <member name="T:USML.Tracer">
-            <summary>
-            Provides method for the USML logging.
-            <br>use all static methods</br>
-            </summary>
-        </member>
-        <member name="P:USML.Tracer.LogBuilder">
-            <summary>
-            The entire log String.
-            </summary>
-        </member>
-        <member name="P:USML.Tracer.Holder">
-            <summary>
-            The current object using the Tracer
-            <br>Can be set with <see cref="M:USML.Tracer.Here(System.Object@)"/> function.</br>
-            </summary>
-        </member>
-        <member name="P:USML.Tracer.FailCount">
-            <summary>
-            this variable increases every time <see cref="M:USML.Tracer.Fail(System.String)"/> is called
-            </summary>
-        </member>
-        <member name="M:USML.Tracer.Here(System.Object@)">
-            <summary>
-            Set the Tracer holder object
-            </summary>
-            <param name="obj">the actual object using Tracer</param>
-        </member>
-        <member name="M:USML.Tracer.Fail(System.String)">
-            <summary>
-            Print a fail message.
-            </summary>
-            <param name="message">the message that will be sent</param>
-        </member>
-        <member name="M:USML.Tracer.Throw(System.String,System.String)">
-            <summary>
-            Print an Exception message.
-            </summary>
-            <param name="message">the message that will be sent</param>
-            <param name="throwMessage">the message from the exception</param>
-        </member>
-        <member name="M:USML.Tracer.Log(System.String)">
-            <summary>
-            Print a common log message.
-            </summary>
-            <param name="message">the message that will be sent</param>
-        </member>
-        <member name="M:USML.Tracer.Fatal(System.String)">
-            <summary>
-            Print a critical message.
-            </summary>
-            <param name="throwMessage">the message that will be sent</param>
-        </member>
-        <member name="M:USML.Tracer.Warning(System.String)">
-            <summary>
-            Print a warning message.
-            </summary>
-            <param name="message">the message that will be sent</param>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:USML.Tracer.AddLogSeparator" -->
-        <member name="M:USML.Tracer.Exception(System.Exception,System.Boolean)">
-            <summary>
-            Print a full exception message with the stacktrace include
-            </summary>
-            <param name="e">The thrown exception</param>
-            <param name="hide">if the Tracer will hide in the Console</param>
-        </member>
-        <member name="M:USML.Tracer.GetSingleTrace">
-            <summary>
-            The single instance of the Tracer
-            </summary>
-        </member>
-        <member name="M:USML.Tracer.HasFailed">
-            <summary>
-            if the Tracer registered any fail.
-            </summary>
-            <returns>true if the <see cref="P:USML.Tracer.FailCount"/> is greater than 0</returns>
-        </member>
-        <member name="M:USML.Tracer.ToString">
-            <summary>
-            gives the entire string of the logging.
-            </summary>
         </member>
         <member name="T:USML.Objects">
             <summary>
@@ -183,6 +105,88 @@
              <param name="jObject">The reference of the JsonObject</param>
              <param name="key">The key</param>
              
+        </member>
+        <member name="T:USML.Tracer">
+            <summary>
+            Provides method for the USML logging.
+            <br>use all static methods</br>
+            </summary>
+        </member>
+        <member name="P:USML.Tracer.LogBuilder">
+            <summary>
+            The entire log String.
+            </summary>
+        </member>
+        <member name="P:USML.Tracer.Holder">
+            <summary>
+            The current object using the Tracer
+            <br>Can be set with <see cref="M:USML.Tracer.Here(System.Object@)"/> function.</br>
+            </summary>
+        </member>
+        <member name="P:USML.Tracer.FailCount">
+            <summary>
+            this variable increases every time <see cref="M:USML.Tracer.Fail(System.String)"/> is called
+            </summary>
+        </member>
+        <member name="M:USML.Tracer.Here(System.Object@)">
+            <summary>
+            Set the Tracer holder object
+            </summary>
+            <param name="obj">the actual object using Tracer</param>
+        </member>
+        <member name="M:USML.Tracer.Fail(System.String)">
+            <summary>
+            Print a fail message.
+            </summary>
+            <param name="message">the message that will be sent</param>
+        </member>
+        <member name="M:USML.Tracer.Throw(System.String,System.String)">
+            <summary>
+            Print an Exception message.
+            </summary>
+            <param name="message">the message that will be sent</param>
+            <param name="throwMessage">the message from the exception</param>
+        </member>
+        <member name="M:USML.Tracer.Log(System.String)">
+            <summary>
+            Print a common log message.
+            </summary>
+            <param name="message">the message that will be sent</param>
+        </member>
+        <member name="M:USML.Tracer.Fatal(System.String)">
+            <summary>
+            Print a critical message.
+            </summary>
+            <param name="throwMessage">the message that will be sent</param>
+        </member>
+        <member name="M:USML.Tracer.Warning(System.String)">
+            <summary>
+            Print a warning message.
+            </summary>
+            <param name="message">the message that will be sent</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:USML.Tracer.AddLogSeparator" -->
+        <member name="M:USML.Tracer.Exception(System.Exception)">
+            <summary>
+            Print a full exception message with the stacktrace include
+            </summary>
+            <param name="e">The thrown exception</param>
+        </member>
+        <member name="M:USML.Tracer.GetSingleTrace">
+            <summary>
+            The single instance of the Tracer
+            </summary>
+        </member>
+        <member name="M:USML.Tracer.HasFailed">
+            <summary>
+            if the Tracer registered any fail.
+            </summary>
+            <returns>true if the <see cref="P:USML.Tracer.FailCount"/> is greater than 0</returns>
+        </member>
+        <member name="M:USML.Tracer.ToString">
+            <summary>
+            gives the entire string of the logging.
+            </summary>
         </member>
         <member name="T:USML.USMLDefaults">
             <summary>
