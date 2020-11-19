@@ -9,7 +9,7 @@ namespace USML {
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         
-        public static readonly string USMLCONFIG_FILE = "usml-config.json";
+        public static readonly string USMLCONFIG_FILE = "usml-config.yml";
         public static readonly string LIBRARIES_FOLDER = "libraries";
 
         public static readonly string CONFIG_DRIVERCLASS_KEY = "driverClass";

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using USML;
 
@@ -11,12 +10,15 @@ namespace USMLCore {
 
             string modList = @"C:\Users\redst\OneDrive\Área de Trabalho\modList";
 
-            Bookshelf bookshelf = new Bookshelf(modList);
-            StandardModLoader modLoader = StandardModLoader.Create(ref bookshelf);
-            ModManagerSystem managerSystem = modLoader.Process();
+            StandardModLoader ModLoader = new StandardModLoader(modList, true);
+            ModManagerSystem modManager = ModLoader.GetModManagerSystem();
+            modManager.AddSequence(new Sequence("CustomCall"));
 
-
-            File.WriteAllText("logs.txt", Tracer.GetSingleTrace().ToString());
+            foreach(string r in modManager.CallSequence("CustomCall", "ola!"))
+            {
+                Logger.LogInformation(r.GetType().Name);
+                Logger.LogInformation(r + " from the mod dev retuned");
+            }
         }
     
     }

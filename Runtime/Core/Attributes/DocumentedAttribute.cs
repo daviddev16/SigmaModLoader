@@ -6,6 +6,7 @@ namespace USML {
     /// This attribute helps to indentify the documented classes/structures.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface, AllowMultiple = false)]
+    [Documented(true)]
     public class DocumentedAttribute : Attribute {
 
         private bool Done;

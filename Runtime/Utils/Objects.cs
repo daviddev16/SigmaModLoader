@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Json;
+using System.IO;
+using YamlDotNet.Serialization;
 
 namespace USML {
 
     /// <summary>
     /// This class consists of static utility methods for operating on objects.
     /// </summary>
-    [Documented(true)]
+    [Documented(false)]
     public class Objects {
 
         /// <summary>
@@ -52,59 +54,14 @@ namespace USML {
             return RequireNotNull(ref obj, message, null);
         }
 
-        /// <summary>
-        /// This method returns the JsonValue of the respective key
-        /// <br>Warning: this method can return a null object</br>
-        /// </summary>
-        ///
-        /// <returns>The JsonValue</returns>
-        /// <param name="jObject">The reference of the JsonObject</param>
-        /// <param name="key">The key</param>
-        /// 
-        [Nullable]
-        public static JsonValue GetValue([NotNull] ref JsonObject jObject, string key) {
-            if(jObject.TryGetValue(key, out JsonValue value)) {
-                return value;
-            }
-            return null;
+        public static Dictionary<string, object> ReadYAMLFile([NotNull] string FilePath)
+        {
+            var deserializer = new Deserializer();
+            FileStream stream = new FileStream(FilePath, FileMode.Open);
+            return deserializer.Deserialize<Dictionary<string, object>>(new StreamReader(stream));
         }
 
-        /// <summary>
-        /// This method returns the String of the respective key
-        /// <br>Warning: this method can return a null object</br>
-        /// </summary>
-        ///
-        /// <returns>The JsonValue</returns>
-        /// <param name="jObject">The reference of the JsonObject</param>
-        /// <param name="key">The key</param>
-        /// 
-        [Nullable]
-        public static string GetString([NotNull] ref JsonObject jObject, string key) {
-            string value = Get(ref jObject, key).ToString().Trim();
-            return value.Substring(1, value.Length - 2);
-        }
-
-        /// <summary>
-        /// This method returns the Object of the respective key
-        /// <br>Warning: this method can return a null object</br>
-        /// </summary>
-        ///
-        /// <returns>The JsonValue</returns>
-        /// <param name="jObject">The reference of the JsonObject</param>
-        /// <param name="key">The key</param>
-        /// 
-        [Nullable]
-        public static object Get([NotNull] ref JsonObject jObject, string key) {
-            JsonValue value = GetValue(ref jObject, key);
-
-            switch(value.JsonType) {
-                case JsonType.Array: return (JsonArray)value;
-                case JsonType.String: return value.ToString();
-            }
-
-            return value;
-        }
-
+       
 
         private static E CheckIsNull<E>(ref E obj, bool throwException, string message, Exception inner) {
             if(obj != null) {
