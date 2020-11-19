@@ -5,40 +5,36 @@ using System.Reflection;
 namespace Sigma
 {
 
-    public sealed class StandardModLoader {
+    public sealed class SigmaLoader {
 
         private ModManagerSystem ModManagerSystem { get; set; }
 
-        public StandardModLoader(Bookshelf bookshelf, bool Process = true) 
+        public SigmaLoader(Bookshelf bookshelf) 
         {
-            ModManagerSystem = new ModManagerSystem();
-
-            if(Process)
-            {
-                ProcessBookshelf(ref bookshelf);
-            }
+            Init(bookshelf);
         }
 
-        public StandardModLoader(string ModsPath, bool Process = true)
+        public SigmaLoader(string ModsPath)
+        {
+            Init(new Bookshelf(ModsPath));
+        }
+
+        private void Init(Bookshelf bookshelf)
         {
             ModManagerSystem = new ModManagerSystem();
-
-            Bookshelf bookshelf = new Bookshelf(ModsPath);
-            if(Process)
-            {
-                ProcessBookshelf(ref bookshelf);
-            }
+            ProcessBookshelf(bookshelf);
         }
 
 
-        public StandardModLoader Process(ref IBaseInspector baseInspector) 
+        public void Process(ref IBaseInspector baseInspector) 
         {
-            try {
-
+            try
+            {
                 Assembly assembly = baseInspector.LoadAssembly();
                 Configuration Config = baseInspector.GetConfiguration();
 
                 BaseMod ModInstance = (BaseMod)assembly.CreateInstance(Config.DriveClassPath);
+             
                 if(ModInstance != null)
                 {
                     ModInstance.Use(Config, this, new List<MethodCaller>());
@@ -47,26 +43,22 @@ namespace Sigma
                 }
                 else
                 {
-                    Logger.LogFail("Mod instance was null.");
+                    SigmaLogger.LogFail("Mod instance was null.");
                 }
             }
-            catch(Exception e) 
+            catch(Exception e)
             {
-                Logger.LogError("Something goes wrong while processing.", e, false);
-                throw;
+                SigmaLogger.LogError("Something goes wrong while processing.", e, false);
             }
-
-            return this;
         }
 
-        public StandardModLoader ProcessBookshelf(ref Bookshelf Bookshelf) 
+        public void ProcessBookshelf(Bookshelf Bookshelf) 
         {
             Bookshelf.AllSet(inspector => 
             {
                 Process(ref inspector);
             });
 
-            return this;
         }
         
         public ModManagerSystem GetModManagerSystem() 

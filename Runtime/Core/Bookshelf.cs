@@ -19,12 +19,12 @@ namespace Sigma
             ModsPath = Objects.RequireNotNull(modsPath);
 
             if(!Validate()) {
-                Logger.LogError("Bookshelf could not be instantiated.");
-                Logger.LogError("Please do NOT use any method from this class.");
+                SigmaLogger.LogError("Bookshelf could not be instantiated.");
+                SigmaLogger.LogError("Please do NOT use any method from this class.");
                 return;
             }
 
-            Logger.LogInformation("Starting the BookShelf.");
+            SigmaLogger.LogInformation("Starting the BookShelf.");
 
             Inspectors = new HashSet<IBaseInspector>();
             ModPathArray = Directory.GetDirectories(ModsPath);
@@ -40,7 +40,7 @@ namespace Sigma
                     }
                 }
 
-                Logger.LogWarning("\"" + modInspector.GetConfiguration().Name + "\" failed.");
+                SigmaLogger.LogWarning("\"" + modInspector.GetConfiguration().Name + "\" failed.");
             }
         }
 
@@ -50,15 +50,15 @@ namespace Sigma
 
             if(CheckDuplications(ref baseInspector)) 
             {
-                Logger.LogWarning("Duplication detected: \"" + baseInspector.GetConfiguration().Name + "\".");
-                Logger.LogWarning("Please delete the duplication.");
+                SigmaLogger.LogWarning("Duplication detected: \"" + baseInspector.GetConfiguration().Name + "\".");
+                SigmaLogger.LogWarning("Please delete the duplication.");
                 return true;
             }
 
             Inspectors.Add(baseInspector);
 
             string FullName = baseInspector.GetConfiguration().GetFullName();
-            Logger.LogInformation(string.Concat(FullName, " found."));
+            SigmaLogger.LogInformation(string.Concat(FullName, " found."));
             return true;
 
         }
@@ -86,13 +86,13 @@ namespace Sigma
         {
             if(!File.GetAttributes(ModsPath).HasFlag(FileAttributes.Directory)) 
             {
-                Logger.LogError("Mod path must be a directory.");
+                SigmaLogger.LogError("Mod path must be a directory.");
                 return false;
             }
 
             if(!Directory.Exists(ModsPath)) 
             {
-                Logger.LogError("Directory not found.");
+                SigmaLogger.LogError("Directory not found.");
                 return false;
             }
  

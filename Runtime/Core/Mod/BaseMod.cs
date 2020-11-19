@@ -5,37 +5,86 @@ namespace Sigma
 
     public abstract class BaseMod {
 
-        public Configuration Configuration { get; private set; } = null;
-
-        public StandardModLoader ModLoader { get; private set; } = null;
-
-        private List<MethodCaller> Callers { get; set; } = null;
-
-       
-
-        public virtual List<MethodCaller> GetModCallers()
+        private Configuration Configuration 
         {
-            return Callers;
+            get { return Configuration; }
+            set 
+            {
+                if(Configuration == null)
+                {
+                    Configuration = value;
+                    return;
+                }
+
+                SigmaLogger.LogFail("Configuration is set internally by the system.");
+            }
+
         }
+
+        private SigmaLoader ModLoader
+        {
+            get { return ModLoader; }
+            set
+            {
+                if(ModLoader == null)
+                {
+                    ModLoader = value;
+                    return;
+                }
+
+                SigmaLogger.LogFail("ModLoader is set internally by the system.");
+            }
+
+        }
+
+        private List<MethodCaller> Callers
+        {
+            get { return Callers; }
+            set
+            {
+                if(Callers == null)
+                {
+                    Callers = value;
+                    return;
+                }
+
+                SigmaLogger.LogFail("Callers are set internally by the system.");
+            }
+
+        }
+
+
 
         public void Register<E>(E listener, string method)
         {
             if(listener == null)
             {
-                Logger.LogCritical("Registered type cannot be null");
+                SigmaLogger.LogCritical("Registered type cannot be null");
                 return;
             }
 
             MethodCaller Caller = new MethodCaller(listener, method);
-            //validate
-            GetModCallers().Add(Caller);
+
+            if(Caller.Validate())
+            {
+                GetModCallers().Add(Caller);
+                return;
+            }
+
+            SigmaLogger.LogCritical("Invalid caller.");
+
         }
 
-        public virtual void Use(Configuration Configuration, StandardModLoader ModLoader, List<MethodCaller> Callers)
+        public virtual void Use(Configuration Configuration, SigmaLoader ModLoader, List<MethodCaller> Callers)
         {
             this.ModLoader = ModLoader;
             this.Configuration = Configuration;
             this.Callers = Callers;
+        }
+
+        public virtual List<MethodCaller> GetModCallers()
+        {
+            return Callers;
         }
 
         public abstract void OnEnable();

@@ -3,7 +3,7 @@
 namespace Sigma
 {
 
-    public class Logger {
+    public class SigmaLogger {
 
         public enum Level
         {

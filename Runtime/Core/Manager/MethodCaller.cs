@@ -41,23 +41,7 @@ namespace Sigma
 
         public bool Validate()
         {
-
-            MethodInfo MethodInfo = GetMethodInfo();
-         
-            if(MethodInfo !is null)
-            {
-                if(Parameters !is null)
-                {
-                    if(Parameters.Length != MethodInfo.GetParameters().Length)
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-            return false;
+            return (GetMethodInfo() != null);
         }
     }
 

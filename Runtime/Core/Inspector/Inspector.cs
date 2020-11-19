@@ -31,7 +31,7 @@ namespace Sigma
 
         public bool Validate()
         {
-            Logger.LogInformation("Reading folder \"" + Name + "\"...");
+            SigmaLogger.LogInformation("Reading folder \"" + Name + "\"...");
 
             if(CheckFiles())
             {
@@ -40,13 +40,13 @@ namespace Sigma
                 {
                     if(!HasAnyLibrary())
                     {
-                        Logger.LogError("No library found.");
+                        SigmaLogger.LogError("No library found.");
                         return false;
                     }
                 }
                 else
                 {
-                    Logger.LogError("Fail on loading the configuration file.");
+                    SigmaLogger.LogError("Fail on loading the configuration file.");
                     return false;
                 }
             }
@@ -60,26 +60,26 @@ namespace Sigma
 
                 if(!Directory.Exists(RootFolderPath)) 
                 {
-                    Logger.LogError("The root folder doesn't exists.");
+                    SigmaLogger.LogError("The root folder doesn't exists.");
                     return false;
                 }
                 
                 if(!Directory.Exists(LibrariesFolderPath)) 
                 {
-                    Logger.LogError("The libraries folder doesn't exists");
+                    SigmaLogger.LogError("The libraries folder doesn't exists");
                     return false;
                 }
                 
                 if(!File.Exists(ConfigurationFilePath)) 
                 {
-                    Logger.LogError("Configuration file doesn't exists.");
+                    SigmaLogger.LogError("Configuration file doesn't exists.");
                     return false;
                 }
 
             }
             catch(Exception e) 
             {
-                Logger.LogError("Something goes wrong while processing.", e, false);
+                SigmaLogger.LogError("Something goes wrong while processing.", e, false);
                 return false;
             }
             
