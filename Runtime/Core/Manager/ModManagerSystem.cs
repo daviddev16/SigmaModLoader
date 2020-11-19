@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace USML {
+namespace Sigma
+{
 
     public sealed class ModManagerSystem : ModSet, SeqExecutor {
 
@@ -52,7 +53,10 @@ namespace USML {
 
             FindAllSequences(name, Seq =>
             {
-               values.Add(CallSequence(Seq, methodParameters));
+                foreach(object o in CallSequence(Seq, methodParameters))
+                {
+                    values.Add(o);
+                }
             });
 
             return values.ToArray();

@@ -3,7 +3,8 @@ using System.Reflection;
 using System.IO;
 using System.Diagnostics.CodeAnalysis;
 
-namespace USML {
+namespace Sigma
+{
 
     public sealed class Inspector : IBaseInspector {
 

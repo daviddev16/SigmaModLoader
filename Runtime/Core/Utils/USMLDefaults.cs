@@ -1,4 +1,5 @@
-namespace USML {
+namespace Sigma
+{
 
     /// <summary>
     /// All defaults labels/strings to be used by the USML application.

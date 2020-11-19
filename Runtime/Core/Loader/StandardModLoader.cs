@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace USML {
+namespace Sigma
+{
 
     public sealed class StandardModLoader {
 
@@ -38,14 +39,21 @@ namespace USML {
                 Configuration Config = baseInspector.GetConfiguration();
 
                 BaseMod ModInstance = (BaseMod)assembly.CreateInstance(Config.DriveClassPath);
-                ModInstance.Use(Config, this, new List<MethodCaller>());
-                ModInstance.OnEnable();
-
-                ModManagerSystem.Add(ModInstance);
+                if(ModInstance != null)
+                {
+                    ModInstance.Use(Config, this, new List<MethodCaller>());
+                    ModInstance.OnEnable();
+                    ModManagerSystem.Add(ModInstance);
+                }
+                else
+                {
+                    Logger.LogFail("Mod instance was null.");
+                }
             }
             catch(Exception e) 
             {
                 Logger.LogError("Something goes wrong while processing.", e, false);
+                throw;
             }
 
             return this;

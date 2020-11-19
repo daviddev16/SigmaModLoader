@@ -1,5 +1,5 @@
 ﻿
-namespace USML
+namespace Sigma
 {
     public interface SeqExecutor
     {

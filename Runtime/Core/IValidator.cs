@@ -1,4 +1,5 @@
-﻿namespace USML {
+﻿namespace Sigma
+{
 
     /// <summary>
     /// Validator provides a <see cref="Validate"/> method that can be used for

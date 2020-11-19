@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 
-namespace USML {
+namespace Sigma
+{
 
     public interface IBaseInspector : IValidator {
 

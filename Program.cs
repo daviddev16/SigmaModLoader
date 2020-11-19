@@ -1,8 +1,7 @@
-﻿using System;
-using System.IO;
+﻿
 using USML;
 
-namespace USMLCore {
+namespace Sigma {
 
     public class Program {
     
@@ -12,12 +11,11 @@ namespace USMLCore {
 
             StandardModLoader ModLoader = new StandardModLoader(modList, true);
             ModManagerSystem modManager = ModLoader.GetModManagerSystem();
-            modManager.AddSequence(new Sequence("CustomCall"));
+            modManager.AddSequence(new Sequence("OnHelloWorld"));
 
-            foreach(string r in modManager.CallSequence("CustomCall", "ola!"))
+            foreach(string msg in modManager.CallSequence("OnHelloWorld"))
             {
-                Logger.LogInformation(r.GetType().Name);
-                Logger.LogInformation(r + " from the mod dev retuned");
+                Logger.LogInformation(msg + " => from CustomMod");
             }
         }
     

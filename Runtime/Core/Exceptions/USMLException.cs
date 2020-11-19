@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace USML {
+namespace Sigma
+{
 
     public class USMLException : Exception {
 

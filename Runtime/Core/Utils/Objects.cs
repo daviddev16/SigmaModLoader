@@ -4,7 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using YamlDotNet.Serialization;
 
-namespace USML {
+namespace Sigma
+{
 
     /// <summary>
     /// This class consists of static utility methods for operating on objects.

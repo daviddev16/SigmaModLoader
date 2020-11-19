@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace USML 
+namespace Sigma
 { 
 
     public class Sequence

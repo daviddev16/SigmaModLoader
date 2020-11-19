@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace USML {
+namespace Sigma
+{
 
     public class Logger {
 

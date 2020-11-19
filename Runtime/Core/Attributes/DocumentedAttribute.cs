@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace USML {
+namespace Sigma
+{
 
     /// <summary>
     /// This attribute helps to indentify the documented classes/structures.

@@ -2,8 +2,8 @@
 using System;
 using System.Reflection;
 
-namespace USML {
-    
+namespace Sigma
+{
     public sealed class MethodCaller : IValidator {
 
         private object Listener = null;
