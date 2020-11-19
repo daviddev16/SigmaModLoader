@@ -29,7 +29,6 @@ namespace Sigma
                     }
                 }
             });
-
             this.Callers = Callers.ToArray();
         }
 
