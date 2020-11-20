@@ -1,70 +1,176 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 
 namespace Sigma
 {
 
-    public sealed class SigmaLoader {
+    public sealed class SigmaLoader : IValidator, IDisposable
+    {
 
-        private ModManagerSystem ModManagerSystem { get; set; }
+        private readonly static SigmaLogger Logger = new SigmaLogger(typeof(SigmaLoader));
 
-        public SigmaLoader(Bookshelf bookshelf) 
-        {
-            Init(bookshelf);
-        }
+        public ModManagerSystem ModManagerSystem { get; private set; }
+
+        public HashSet<IBaseInspector> Inspectors { get; private set; }
+
+        private string[] ModPathArray { get; set; }
+
+        public string ModsPath { get; private set; }
+
 
         public SigmaLoader(string ModsPath)
         {
-            Init(new Bookshelf(ModsPath));
-        }
-
-        private void Init(Bookshelf bookshelf)
-        {
+            this.ModsPath = Objects.RequireNotNull(ref ModsPath, "Mods path is null.");
             ModManagerSystem = new ModManagerSystem();
-            ProcessBookshelf(bookshelf);
+            Load(this.ModsPath);
         }
 
+        public void Reload()
+        {
 
-        public void Process(ref IBaseInspector baseInspector) 
+            if(ModManagerSystem.IsLoaded)
+            {
+                ModManagerSystem.Dispose();
+            }
+
+            if(ModsPath != null)
+            {
+                Load(ModsPath);
+                return;
+            }
+        }
+
+        private void Load(string modsPath)
+        {
+            if(!Validate())
+            {
+                Logger.LogError("SigmaLoader could not be instantiated.");
+                Logger.LogError("Please do NOT use any method from this class.");
+                return;
+            }
+
+            Logger.LogInformation("Loading...");
+
+            Inspectors = new HashSet<IBaseInspector>();
+            ModPathArray = Directory.GetDirectories(modsPath);
+
+            foreach(string ModDirectory in ModPathArray)
+            {
+                IBaseInspector modInspector = new Inspector(ModDirectory);
+
+                if(modInspector.Validate())
+                {
+                    if(AddInspector(ref modInspector))
+                    {
+                        continue;
+                    }
+                }
+                Logger.LogWarning("\"" + modInspector.GetConfiguration().Name + "\" failed.");
+            }
+
+            ProcessAll();
+        }
+
+        private void Process(ref IBaseInspector baseInspector)
         {
             try
             {
                 Assembly assembly = baseInspector.LoadAssembly();
-                Configuration Config = baseInspector.GetConfiguration();
+                SigmaConfiguration Config = baseInspector.GetConfiguration();
 
                 BaseMod ModInstance = (BaseMod)assembly.CreateInstance(Config.DriveClassPath);
-             
+
                 if(ModInstance != null)
                 {
-                    ModInstance.Use(Config, this, new List<MethodCaller>());
-                    ModInstance.OnEnable();
-                    ModManagerSystem.Add(ModInstance);
+                    ModInstance.Use(Config, this);
+                    ModManagerSystem.InsertInstancedMod(ref ModInstance);
                 }
                 else
                 {
-                    SigmaLogger.LogFail("Mod instance was null.");
+                    Logger.LogFail("Mod instance was null.");
                 }
             }
             catch(Exception e)
             {
-                SigmaLogger.LogError("Something goes wrong while processing.", e, false);
+                Logger.LogError("Something goes wrong while processing.", e, false);
             }
         }
 
-        public void ProcessBookshelf(Bookshelf Bookshelf) 
+        private bool AddInspector(ref IBaseInspector baseInspector)
         {
-            Bookshelf.AllSet(inspector => 
+            Objects.RequireNotNull(ref baseInspector, "BaseInspector is null.");
+
+            if(CheckDuplications(ref baseInspector))
+            {
+                Logger.LogWarning("Duplication detected: \"" + baseInspector.GetConfiguration().Name + "\".");
+                Logger.LogWarning("Please delete the duplication.");
+                return true;
+            }
+
+            Inspectors.Add(baseInspector);
+
+            string FullName = baseInspector.GetConfiguration().GetFullName();
+            Logger.LogInformation(string.Concat(FullName, " found."));
+            return true;
+
+        }
+
+        private void AllSet(Action<IBaseInspector> inspectorAction)
+        {
+            foreach(IBaseInspector inspectors in Inspectors)
+            {
+                inspectorAction.Invoke(inspectors);
+            }
+        }
+
+        private bool CheckDuplications(ref IBaseInspector inspector)
+        {
+            foreach(IBaseInspector others in Inspectors)
+            {
+                if(others.GetConfiguration().Equals(inspector.GetConfiguration()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void ProcessAll()
+        {
+            AllSet(inspector =>
             {
                 Process(ref inspector);
             });
-
+            Logger.LogTitle("SUCCESSFUL!");
+            ModManagerSystem.EnableAll();
+            Dispose();
         }
-        
-        public ModManagerSystem GetModManagerSystem() 
+
+        public bool Validate()
         {
-            return ModManagerSystem;
+            if(!File.GetAttributes(ModsPath).HasFlag(FileAttributes.Directory))
+            {
+                Logger.LogError("Mod path must be a directory.");
+                return false;
+            }
+
+            if(!Directory.Exists(ModsPath))
+            {
+                Logger.LogError("Directory not found.");
+                return false;
+            }
+
+            return true;
+        }
+
+        public void Dispose()
+        {
+            Inspectors.Clear();
         }
     }
 
 }
+

@@ -8,12 +8,13 @@ namespace Sigma
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface, AllowMultiple = false)]
     [Documented(true)]
-    public class DocumentedAttribute : Attribute {
+    public class DocumentedAttribute : Attribute
+    {
 
         private bool Done;
 
         /// <param name="done">if this class/struct is well-documented or complete</param>
-        public DocumentedAttribute(bool done) 
+        public DocumentedAttribute(bool done)
         {
             this.Done = done;
         }
@@ -21,7 +22,7 @@ namespace Sigma
         /// <summary>
         /// returns if it's documented.
         /// </summary>
-        public bool IsDone() 
+        public bool IsDone()
         {
             return Done;
         }

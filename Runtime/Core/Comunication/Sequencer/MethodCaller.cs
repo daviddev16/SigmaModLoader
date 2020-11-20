@@ -1,16 +1,16 @@
-﻿
-using System;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Sigma
 {
-    public sealed class MethodCaller : IValidator {
+    public sealed class MethodCaller : IValidator
+    {
 
         private object Listener = null;
         private string Method = null;
         private object[] Parameters = null;
 
-        public MethodCaller(object listener, string method) {
+        public MethodCaller(object listener, string method)
+        {
             Listener = listener;
             Method = method;
         }
@@ -20,7 +20,7 @@ namespace Sigma
             return Listener;
         }
 
-        public string GetMethodName() 
+        public string GetMethodName()
         {
             return Method.Trim();
         }

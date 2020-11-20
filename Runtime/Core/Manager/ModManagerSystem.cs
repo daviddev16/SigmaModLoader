@@ -1,83 +1,225 @@
-﻿using System;
+﻿using Sigma.Reflections;
+using System;
 using System.Collections.Generic;
 
 namespace Sigma
 {
+    /// <summary>
+    /// this class is responsible for managing mods
+    /// </summary>
+    /// 
+    [Documented(true)]
+    public sealed class ModManagerSystem : ISequencerExecutor
+    {
 
-    public sealed class ModManagerSystem : ModSet, SeqExecutor {
+        private readonly static SigmaLogger Logger = new SigmaLogger(typeof(ModManagerSystem));
 
+        private HashSet<BaseMod> ModSet { get; set; }
 
-        private List<Sequence> Sequences { get; set; }
+        private List<Sequencer> Sequencers { get; set; }
 
-        public ModManagerSystem() : base() 
+        /// <summary>
+        /// Is ModManagerSystem Loaded?
+        /// </summary>
+        public bool IsLoaded { get; set; } = false;
+
+        public ModManagerSystem()
         {
-            Sequences = new List<Sequence>();
+            Sequencers = new List<Sequencer>();
+            ModSet = new HashSet<BaseMod>();
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnShutdownEvent);
         }
 
-        public void AddSequence(Sequence seq)
+        /// <summary>
+        /// Execute an Sequence through the Reflection methods
+        /// </summary>
+        /// 
+        /// <param name="Sequencer">The current Sequencer</param>
+        /// <param name="methodParameters">All necessary parameters</param>
+        /// 
+        /// <returns>Return an array of all returned values</returns>
+        /// 
+        public object[] CallSequencer(Sequencer Sequencer, object[] methodParameters)
+        {
+            try
+            {
+                Objects.RequireNotNull(ref Sequencer, "Sequencer is null.");
+
+                List<object> values = new List<object>();
+                foreach(MethodCaller Caller in Sequencer.Callers)
+                {
+                    InvokationResult<object> invokationResult = Handlers.Call(Caller, ref methodParameters);
+                    if(!invokationResult.Failed)
+                    {
+                        values.Add(invokationResult.Result);
+                        continue;
+                    }
+                    Logger.LogError("Invokation failed.", invokationResult.Exception, false);
+                }
+                return values.ToArray();
+            }
+            catch(Exception e)
+            {
+                Logger.LogError("CallSequencer failed.", e, false);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// find all sequences with the respective name and send as an <see cref="Action{Sequencer}"/>
+        /// </summary>
+        /// 
+        /// <param name="ActionSequencer">Delegate Action</param>
+        /// <param name="name">name of the sequencer</param>
+        ///
+        public void FindAllSequences(string name, Action<Sequencer> ActionSequencer)
+        {
+            Objects.RequireNotNull(ref name, "Name is null");
+            Objects.RequireNotNull(ref name, "ActionSequencer is null");
+
+            foreach(Sequencer Sequencer in Sequencers)
+            {
+                if(Sequencer.Name.Equals(name))
+                {
+                    ActionSequencer.Invoke(Sequencer);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Execute the sequencer without return anything.
+        /// </summary>
+        /// 
+        /// <param name="name">name of the sequencer</param>
+        ///
+        public void CallSequencerQuietly(string name)
+        {
+            FindAllSequences(name, Seq =>
+            {
+                CallSequencer(Seq, null);
+            });
+        }
+
+        /// <summary>
+        /// Execute the sequencer without return anything.
+        /// </summary>
+        /// 
+        /// <param name="name">name of the sequencer</param>
+        /// <param name="parameters">the necessary parameters</param>
+        ///
+        public void CallSequencerQuietly(string name, params object[] parameters)
+        {
+            FindAllSequences(name, Seq =>
+            {
+                CallSequencer(Seq, parameters);
+            });
+        }
+
+        /// <summary>
+        /// Execute the sequencer returning all the returned values from the invokation.
+        /// </summary>
+        /// 
+        /// <param name="name">name of the sequencer</param>
+        /// <param name="parameters">the necessary parameters</param>
+        ///
+        public object[] CallSequencer(string name, params object[] parameters)
+        {
+            List<object> values = new List<object>();
+
+            FindAllSequences(name, Seq =>
+            {
+                foreach(object obj in CallSequencer(Seq, parameters))
+                {
+                    values.Add(obj);
+                }
+            });
+
+            return values.ToArray();
+        }
+
+        /// <summary>
+        /// Add a new Sequencer to the Sequencers, this will help you to call any method<br/>
+        /// from a especific(or not) listener.
+        /// </summary>
+        /// 
+        ///<param name="seq">The actual instance of a Sequencer</param>
+        ///
+        public void AddSequencer(Sequencer seq)
         {
             seq.LoadSequence(this);
-            Sequences.Add(seq);
+            Sequencers.Add(seq);
         }
 
-        public void FindAllSequences(string name, Action<Sequence> Consumer)
+        /// <summary>
+        /// Get the Sequencers array.
+        /// </summary>
+        ///
+        public Sequencer[] GetSequencers()
         {
-            foreach(Sequence Sequence in Sequences)
+            return Sequencers.ToArray();
+        }
+
+        /// <summary>
+        /// iterate all Mods
+        /// </summary>
+        ///
+        public void AllSet(Action<BaseMod> ActionMod)
+        {
+            foreach(BaseMod baseMod in ModSet)
             {
-                if(Sequence.Name.Equals(name))
-                {
-                    Consumer.Invoke(Sequence);
-                }
+                ActionMod.Invoke(baseMod);
             }
         }
 
-        public void CallSequenceQuietly(string name)
+        /// <summary>
+        /// Disable and clean up everything.
+        /// </summary>
+        ///
+        public void Dispose()
         {
-            FindAllSequences(name, Seq =>
+            if(IsLoaded)
             {
-                CallSequence(Seq, null);
-            });
-        }
-
-        public void CallSequenceQuietly(string name, params object[] prms)
-        {
-            FindAllSequences(name, Seq =>
-            {
-                CallSequence(Seq, prms);
-            });
-        }
-
-        public object[] CallSequence(string name, params object[] methodParameters)
-        {
-            List<object> values = new List<object>();
-
-            FindAllSequences(name, Seq =>
-            {
-                foreach(object o in CallSequence(Seq, methodParameters))
-                {
-                    values.Add(o);
-                }
-            });
-
-            return values.ToArray();
-        }
-
-        public object[] CallSequence(Sequence Sequence, object[] methodParameters)
-        {
-            List<object> values = new List<object>();
-            foreach(MethodCaller Caller in Sequence.Callers)
-            {
-                object returnValue = ReflectionHandlers.HandleMethodCaller(Caller, ref methodParameters);
-                values.Add(returnValue);
+                DisableAll();
+                Sequencers.Clear();
+                ModSet.Clear();
+                Logger.LogInformation("ModManagerSystem Closed.");
             }
-            return values.ToArray();
         }
 
-        public Sequence[] GetSequences()
+        /// <summary>
+        /// Disable all added mods and close the ModManagerSystem
+        /// </summary>
+        ///
+        public void DisableAll()
         {
-            return Sequences.ToArray();
+            AllSet(Mod => Mod.OnDisable());
+            IsLoaded = false;
         }
 
-      
+        /// <summary>
+        /// Enable all added mods and open the ModManagerSystem
+        /// </summary>
+        ///
+        public void EnableAll()
+        {
+            AllSet(Mod => Mod.OnEnable());
+            IsLoaded = true;
+        }
+
+        /// <summary>
+        /// Add a new mod instance.
+        /// </summary>
+        ///
+        public void InsertInstancedMod(ref BaseMod mod)
+        {
+            ModSet.Add(mod);
+        }
+
+        private void OnShutdownEvent(object sender, EventArgs args)
+        {
+            Dispose();
+        }
+
     }
 }

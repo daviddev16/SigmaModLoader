@@ -3,7 +3,8 @@
 namespace Sigma
 {
 
-    public interface IBaseInspector : IValidator {
+    public interface IBaseInspector : IValidator
+    {
 
         string GetRootPath();
 
@@ -11,7 +12,7 @@ namespace Sigma
 
         string GetLibraryPath();
 
-        Configuration GetConfiguration();
+        SigmaConfiguration GetConfiguration();
 
         Assembly LoadAssembly();
 

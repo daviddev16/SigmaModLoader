@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Reflection;
-using System.IO;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Reflection;
 
 namespace Sigma
 {
 
-    public sealed class Inspector : IBaseInspector {
+    public sealed class Inspector : IBaseInspector
+    {
+
+        private readonly static SigmaLogger Logger = new SigmaLogger(typeof(Inspector));
 
         private string RootFolderPath = null;
 
@@ -16,14 +19,14 @@ namespace Sigma
 
         public string Name { get; private set; }
 
-        public Configuration Configuration { get; private set; }
+        public SigmaConfiguration Configuration { get; private set; }
 
         public Inspector([NotNull] string rootPath)
         {
-            RootFolderPath = Objects.RequireNotNull(rootPath);
-            
-            LibrariesFolderPath = Path.Combine(RootFolderPath, USMLDefaults.LIBRARIES_FOLDER);
-            ConfigurationFilePath = Path.Combine(RootFolderPath, USMLDefaults.USMLCONFIG_FILE);
+            RootFolderPath = Objects.RequireNotNull(ref rootPath, "Root path is invalid.");
+
+            LibrariesFolderPath = Path.Combine(RootFolderPath, SigmaConstants.LIBRARIES_FOLDER);
+            ConfigurationFilePath = Path.Combine(RootFolderPath, SigmaConstants.SIGMACONFIG_FILE);
 
             Name = Path.GetFileName(RootFolderPath);
         }
@@ -31,22 +34,22 @@ namespace Sigma
 
         public bool Validate()
         {
-            SigmaLogger.LogInformation("Reading folder \"" + Name + "\"...");
+            Logger.LogInformation("Reading folder \"" + Name + "\"...");
 
             if(CheckFiles())
             {
-                Configuration = new Configuration(ConfigurationFilePath);
+                Configuration = new SigmaConfiguration(ConfigurationFilePath);
                 if(Configuration.Validate())
                 {
                     if(!HasAnyLibrary())
                     {
-                        SigmaLogger.LogError("No library found.");
+                        Logger.LogError("No library found.");
                         return false;
                     }
                 }
                 else
                 {
-                    SigmaLogger.LogError("Fail on loading the configuration file.");
+                    Logger.LogError("Fail on loading the configuration file.");
                     return false;
                 }
             }
@@ -54,53 +57,54 @@ namespace Sigma
             return true;
         }
 
-        private bool CheckFiles() 
+        private bool CheckFiles()
         {
-            try {
+            try
+            {
 
-                if(!Directory.Exists(RootFolderPath)) 
+                if(!Directory.Exists(RootFolderPath))
                 {
-                    SigmaLogger.LogError("The root folder doesn't exists.");
+                    Logger.LogError("The root folder doesn't exists.");
                     return false;
                 }
-                
-                if(!Directory.Exists(LibrariesFolderPath)) 
+
+                if(!Directory.Exists(LibrariesFolderPath))
                 {
-                    SigmaLogger.LogError("The libraries folder doesn't exists");
+                    Logger.LogError("The libraries folder doesn't exists");
                     return false;
                 }
-                
-                if(!File.Exists(ConfigurationFilePath)) 
+
+                if(!File.Exists(ConfigurationFilePath))
                 {
-                    SigmaLogger.LogError("Configuration file doesn't exists.");
+                    Logger.LogError("Configuration file doesn't exists.");
                     return false;
                 }
 
             }
-            catch(Exception e) 
+            catch(Exception e)
             {
-                SigmaLogger.LogError("Something goes wrong while processing.", e, false);
+                Logger.LogError("Something goes wrong while processing.", e, false);
                 return false;
             }
-            
+
             return true;
         }
 
-      
-        private bool HasAnyLibrary() 
+
+        private bool HasAnyLibrary()
         {
-            foreach(string file in Directory.GetFiles(LibrariesFolderPath)) 
+            foreach(string file in Directory.GetFiles(LibrariesFolderPath))
             {
-                if(Path.GetExtension(file).Equals(".dll", StringComparison.OrdinalIgnoreCase)) 
+                if(Path.GetExtension(file).Equals(".dll", StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
             }
-           
+
             return false;
         }
 
-        public Assembly LoadAssembly() 
+        public Assembly LoadAssembly()
         {
             string modLibraryPath = Directory.GetFiles(LibrariesFolderPath)[0];
             return Assembly.LoadFile(modLibraryPath);
@@ -121,7 +125,8 @@ namespace Sigma
             return LibrariesFolderPath;
         }
 
-        public Configuration GetConfiguration() {
+        public SigmaConfiguration GetConfiguration()
+        {
             return Configuration;
         }
     }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using YamlDotNet.Serialization;
 
 namespace Sigma
 {
@@ -10,9 +6,10 @@ namespace Sigma
     /// <summary>
     /// This class consists of static utility methods for operating on objects.
     /// </summary>
-    [Documented(false)]
-    public class Objects {
-
+    [Documented(true)]
+    public class Objects
+    {
+        
         /// <summary>
         /// This method check if the passed variable is null.
         /// </summary>
@@ -23,22 +20,9 @@ namespace Sigma
         /// <exception cref="NullReferenceException">If the actual object is null</exception> 
         /// <returns>The passed object</returns>
         /// 
-        public static E RequireNotNull<E>(ref E obj, string message, Exception inner) 
+        public static E RequireNotNull<E>(ref E obj, string message, Exception inner)
         {
             return CheckIsNull(ref obj, true, message, inner);
-        }
-
-        /// <summary>
-        /// This method check if the passed variable is null.
-        /// </summary>
-        /// <param name="obj">The object that will be checked</param>
-        /// 
-        /// <exception cref="NullReferenceException">If the actual object is null</exception> 
-        /// <returns>The passed object</returns>
-        /// 
-        public static E RequireNotNull<E>(E obj) 
-        {
-            return RequireNotNull(ref obj, "This object cannot be null.", null);
         }
 
         /// <summary>
@@ -50,26 +34,38 @@ namespace Sigma
         /// <exception cref="NullReferenceException">If the actual object is null</exception> 
         /// <returns>The passed object</returns>
         /// 
-        public static E RequireNotNull<E>(ref E obj, string message) 
+        public static E RequireNotNull<E>(ref E obj, string message)
         {
             return RequireNotNull(ref obj, message, null);
         }
 
-        public static Dictionary<string, object> ReadYAMLFile([NotNull] string FilePath)
+        /// <summary>
+        /// This method check if the passed variable is null.
+        /// </summary>
+        /// <param name="Num">The current number that will be checked</param>
+        /// <param name="message">The thrown message</param>
+        /// 
+        /// <exception cref="IndexOutOfRangeException">If the number is less than 0</exception> 
+        /// <returns>The passed object</returns>
+        /// 
+        public static void CheckIsPositive(int Num, string message)
         {
-            var deserializer = new Deserializer();
-            FileStream stream = new FileStream(FilePath, FileMode.Open);
-            return deserializer.Deserialize<Dictionary<string, object>>(new StreamReader(stream));
+            if(Num < 0)
+            {
+                throw new IndexOutOfRangeException(message);
+            }
         }
 
-       
-
-        private static E CheckIsNull<E>(ref E obj, bool throwException, string message, Exception inner) {
-            if(obj != null) {
+        private static E CheckIsNull<E>(ref E obj, bool throwException, string message, Exception inner)
+        {
+            if(obj != null)
+            {
                 return obj;
             }
-            if(obj == null && throwException) {
-                if(inner == null) {
+            if(obj == null && throwException)
+            {
+                if(inner == null)
+                {
                     throw new NullReferenceException(message);
                 }
                 throw new NullReferenceException(message, inner);
@@ -77,7 +73,6 @@ namespace Sigma
 
             return default;
         }
-
 
     }
 

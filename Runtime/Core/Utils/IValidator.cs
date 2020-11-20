@@ -7,7 +7,8 @@
     /// </summary>
     ///
     [Documented(true)]
-    public interface IValidator {
+    public interface IValidator
+    {
 
         /// <summary>
         /// Validate checks all needed conditions to make the inherit class works
