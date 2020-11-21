@@ -75,6 +75,7 @@ namespace Sigma
             }
 
             ProcessAll();
+            Dispose();
         }
 
         private void Process(ref IBaseInspector baseInspector)
@@ -89,7 +90,7 @@ namespace Sigma
                 if(ModInstance != null)
                 {
                     ModInstance.Use(Config, this);
-                    ModManagerSystem.InsertInstancedMod(ref ModInstance);
+                    ModManagerSystem.InsertMod(ref ModInstance);
                 }
                 else
                 {

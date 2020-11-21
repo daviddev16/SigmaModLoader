@@ -7,9 +7,24 @@ namespace Sigma.Logging
 
         public static readonly string LOGGER_FORMAT = "[{3} -> {1}] [{0}] [at {4}]: {2}";
 
+        public static readonly string DEFAULT_SIGMA_APPLICATION = "SigmaFramework";
+
         public string Application { get; private set; }
 
-        public SigmaProvider() { }
+        public SigmaProvider() 
+        {
+            this.Application = DEFAULT_SIGMA_APPLICATION;
+        }
+
+        public SigmaProvider(string Application)
+        {
+            this.Application = Application;
+        }
+
+        public void SetApplicationName(string Name)
+        {
+            this.Application = Name;
+        }
 
         public void LogBase(string message, Level level, Type logType)
         {

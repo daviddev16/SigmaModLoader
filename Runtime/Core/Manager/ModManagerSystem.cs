@@ -244,7 +244,7 @@ namespace Sigma.Manager
         /// Add a new mod instance.
         /// </summary>
         ///
-        public void InsertInstancedMod(ref BaseMod mod)
+        public void InsertMod(ref BaseMod mod)
         {
             ModSet.Add(mod);
         }
