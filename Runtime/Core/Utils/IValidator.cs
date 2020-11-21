@@ -1,4 +1,4 @@
-﻿namespace Sigma
+﻿namespace Sigma.Utils
 {
 
     /// <summary>

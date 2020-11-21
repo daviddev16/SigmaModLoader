@@ -1,14 +1,18 @@
 ﻿using Sigma.Reflections;
 using System;
 using System.Collections.Generic;
+using Sigma.Comunication;
+using Sigma.Logging;
+using Sigma.API;
+using Sigma.Utils;
 
-namespace Sigma
+namespace Sigma.Manager
 {
     /// <summary>
     /// this class is responsible for managing mods
     /// </summary>
     /// 
-    [Documented(true)]
+    [Documented(false)]
     public sealed class ModManagerSystem : ISequencerExecutor
     {
 

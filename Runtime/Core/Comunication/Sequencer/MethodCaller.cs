@@ -1,13 +1,13 @@
-﻿using System.Reflection;
+﻿using Sigma.Utils;
+using System.Reflection;
 
-namespace Sigma
+namespace Sigma.Comunication
 {
     public sealed class MethodCaller : IValidator
     {
 
         private object Listener = null;
         private string Method = null;
-        private object[] Parameters = null;
 
         public MethodCaller(object listener, string method)
         {
@@ -32,11 +32,6 @@ namespace Sigma
                 return null;
             }
             return GetListener().GetType().GetMethod(GetMethodName());
-        }
-
-        public void SetParameters(params object?[] Parameters)
-        {
-            this.Parameters = Parameters;
         }
 
         public bool Validate()

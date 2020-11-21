@@ -1,4 +1,5 @@
 ﻿using Sigma.IO;
+using Sigma.Utils;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -22,10 +23,10 @@ namespace Sigma
 
         private void SetupAllKeys()
         {
-            DriveClassPath = GetValue(SigmaConstants.CONFIG_DRIVERCLASS_KEY) as string;
-            Version = GetValue(SigmaConstants.CONFIG_VERSION_KEY) as string;
-            Name = GetValue(SigmaConstants.CONFIG_NAME_KEY) as string;
-            Description = GetValue(SigmaConstants.CONFIG_DESCRIPTION_KEY) as string;
+            DriveClassPath = GetString(SigmaConstants.CONFIG_DRIVERCLASS_KEY);
+            Version = GetString(SigmaConstants.CONFIG_VERSION_KEY);
+            Name = GetString(SigmaConstants.CONFIG_NAME_KEY);
+            Description = GetString(SigmaConstants.CONFIG_DESCRIPTION_KEY);
 
             RootFolder = Path.GetDirectoryName(FilePath);
         }

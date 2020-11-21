@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using Sigma.Manager;
+using Sigma.Utils;
+using System.Collections.Generic;
 
-namespace Sigma
+namespace Sigma.Comunication
 {
     public class Sequencer
     {
 
-        public string Name { get; private set; } = null;
         public MethodCaller[] Callers { get; private set; } = null;
 
-        public Sequencer(string Name)
+        public string Name { get; private set; }
+
+        public Sequencer(string name)
         {
-            Objects.RequireNotNull(ref Name, "Sequecer name cannot be null.");
-            this.Name = Name;
+            Objects.RequireNotNull(ref name, "Sequencer name cannot be null.");
+            this.Name = name;
         }
 
         public void LoadSequence(ModManagerSystem ManagerSystem)
@@ -22,7 +25,7 @@ namespace Sigma
             {
                 foreach(MethodCaller caller in Mod.Callers)
                 {
-                    if(caller.GetMethodName().Equals(Name))
+                    if(Name.Equals(caller.GetMethodName()))
                     {
                         Callers.Add(caller);
                     }
@@ -30,5 +33,6 @@ namespace Sigma
             });
             this.Callers = Callers.ToArray();
         }
+
     }
 }

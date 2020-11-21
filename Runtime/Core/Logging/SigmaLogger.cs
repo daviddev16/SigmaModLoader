@@ -1,70 +1,62 @@
-﻿using System;
+﻿using Sigma.Utils;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Sigma
+namespace Sigma.Logging
 {
 
-    public class SigmaLogger
+    public class SigmaLogger : IValidator
     {
-        
-        public static readonly string LOGGER_FORMAT = "[{3} -> {1}] [{0}] [at {4}]: {2}";
+
+        public static readonly IProvider DEFAULT_PROVIDER = new SigmaProvider();
 
         public static readonly int TITLE_CHARACTER_LIMIT = 70;
 
-        public enum Level
-        {
-            FAIL,
-            CRITICAL,
-            INFO,
-            ERROR,
-            WARNING
-        }
-
         public Type Type { get; private set; }
 
-        public string Application { get; private set; }
+        public IProvider Provider { get; private set; }
 
         public SigmaLogger([NotNull] Type logType)
         {
             Type = logType;
-            Application = "Sigma";
+            Provider = DEFAULT_PROVIDER;
         }
 
-        public SigmaLogger([NotNull] Type logType, [NotNull] string Application)
+        public SigmaLogger([NotNull] Type logType, [NotNull] IProvider provider)
         {
-            this.Type = logType;
-            this.Application = Application;
+            Type = logType;
+            Provider = provider;
         }
 
         public void LogError(string message, Exception e, bool IsCritical = false)
         {
+            PreCheckLog();
             Level level = (IsCritical) ? Level.CRITICAL : Level.ERROR;
 
-            LogBase(message, level);
+            Provider.LogBase(message, level, Type);
 
             if(e != null)
             {
-                LogBase(e.GetType().Name + ": " + e.Message, level);
+                Provider.LogBase(e.GetType().Name + ": " + e.Message, level, Type);
                 LogStackTrace(e.StackTrace.Trim(), level);
             }
         }
 
         public void LogBlankLine(int height = 1)
         {
-            for(int i = 0; i < height; i++)
-            {
-                Console.WriteLine();
-            }
+            PreCheckLog();
+            Provider.LogBlankLine();
         }
 
         public void LogFail(string message, string reason = "Unknown")
         {
-            LogBase(message, Level.FAIL);
+            PreCheckLog();
+            Provider.LogBase(message, Level.FAIL, Type);
 
             if(!reason.Equals("Unknown"))
             {
-                LogBase(reason, Level.FAIL);
+                Provider.LogBase(reason, Level.FAIL, Type);
             }
         }
 
@@ -75,17 +67,20 @@ namespace Sigma
 
         public void LogError(string message)
         {
+            PreCheckLog();
             LogError(message, null);
         }
 
         public void LogWarning(string message)
         {
-            LogBase(message, Level.WARNING);
+            PreCheckLog();
+            Provider.LogBase(message, Level.WARNING, Type);
         }
 
         public void LogInformation(string message)
         {
-            LogBase(message, Level.INFO);
+            PreCheckLog();
+            Provider.LogBase(message, Level.INFO, Type);
         }
 
         public void LogTitle(string title)
@@ -119,23 +114,28 @@ namespace Sigma
 
         private void LogStackTrace(string StackTrace, Level RootLevel)
         {
-
+            PreCheckLog();
             if(StackTrace is null)
             {
                 return;
             }
             LogBlankLine(2);
-            LogBase(StackTrace, RootLevel);
+            Provider.LogBase(StackTrace, RootLevel, Type);
             LogBlankLine(2);
         }
 
-        public void LogBase(string message, Level level)
+        public bool Validate()
         {
-            string TimeToString = DateTime.Now.ToString("MM/dd/yyyy H:mm:ss");
-            string LevelToString = level.ToString().ToUpper();
-            Console.WriteLine(string.Format(LOGGER_FORMAT, TimeToString, LevelToString, message, Application, Type.Name));
+            return Provider != null;
         }
 
+        public void PreCheckLog()
+        {
+            if(!Validate())
+            {
+                throw new InvalidOperationException("Missing provider in logging.");
+            }
+        }
     }
 
 

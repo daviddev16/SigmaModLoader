@@ -1,5 +1,8 @@
 ﻿using System;
+using Sigma.Comunication;
 using System.Diagnostics;
+using Sigma.Logging;
+using Sigma.Manager;
 
 namespace Sigma
 {
@@ -17,16 +20,15 @@ namespace Sigma
             SigmaLoader ModLoader = new SigmaLoader(modList);
             ModManagerSystem modManager = ModLoader.ModManagerSystem;
 
-            Sequencer OnHelloWorldSequence = new Sequencer("OnHelloWorld");
+            Sequencer seq = new Sequencer("OnHelloWorld");
 
-            modManager.AddSequencer(new Sequencer("OnHelloWorld"));
-
+            modManager.AddSequencer(seq);
 
             Stopwatch watcher = new Stopwatch();
             watcher.Start();
             for(int i = 0; i < 1; i++)
             {
-                foreach(string msg in modManager.CallSequencer("OnHelloWorld", 2, 4))
+                foreach(string msg in modManager.CallSequencer("OnHelloWorld", 2))
                 {
                     Logger.LogInformation(msg + " => from CustomMod");
                 }

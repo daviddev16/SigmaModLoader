@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Sigma.Comunication;
+using Sigma.Logging;
 
-namespace Sigma
+namespace Sigma.API
 {
 
     /// <summary>

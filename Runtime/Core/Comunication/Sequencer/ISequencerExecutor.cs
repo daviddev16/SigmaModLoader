@@ -1,5 +1,5 @@
 ﻿
-namespace Sigma
+namespace Sigma.Comunication
 {
     public interface ISequencerExecutor
     {

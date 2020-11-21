@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sigma
+namespace Sigma.Utils
 {
 
     /// <summary>

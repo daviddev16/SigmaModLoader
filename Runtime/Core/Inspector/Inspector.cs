@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Sigma.Logging;
+using Sigma.Utils;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 
-namespace Sigma
+namespace Sigma.Manager
 {
 
     public sealed class Inspector : IBaseInspector

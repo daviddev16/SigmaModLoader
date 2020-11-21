@@ -1,11 +1,10 @@
-﻿using System.Reflection;
+﻿using Sigma.Utils;
+using System.Reflection;
 
-namespace Sigma
+namespace Sigma.Manager
 {
-
     public interface IBaseInspector : IValidator
     {
-
         string GetRootPath();
 
         string GetConfigurationPath();
@@ -15,7 +14,6 @@ namespace Sigma
         SigmaConfiguration GetConfiguration();
 
         Assembly LoadAssembly();
-
     }
 
 }
