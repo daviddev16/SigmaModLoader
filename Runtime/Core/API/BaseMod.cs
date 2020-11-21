@@ -85,7 +85,7 @@ namespace Sigma.API
         /// <param name="listener">The listener object</param>
         /// <param name="method">The method name used by MethodCaller</param>
         ///
-        public void Register<E>(E listener, string method)
+        public void RegisterCaller<E>(E listener, string method)
         {
             if(listener == null)
             {

@@ -13,7 +13,7 @@ namespace Sigma.Manager
     /// </summary>
     /// 
     [Documented(false)]
-    public sealed class ModManagerSystem : ISequencerExecutor
+    public sealed class ModManagerSystem : ISequencerExecutor, ISignalReceiver
     {
 
         private readonly static SigmaLogger Logger = new SigmaLogger(typeof(ModManagerSystem));
@@ -21,6 +21,8 @@ namespace Sigma.Manager
         private HashSet<BaseMod> ModSet { get; set; }
 
         private List<Sequencer> Sequencers { get; set; }
+
+        private List<Signal<dynamic>> Signals { get; set; }
 
         /// <summary>
         /// Is ModManagerSystem Loaded?
@@ -30,6 +32,7 @@ namespace Sigma.Manager
         public ModManagerSystem()
         {
             Sequencers = new List<Sequencer>();
+            Signals = new List<Signal<dynamic>>();
             ModSet = new HashSet<BaseMod>();
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnShutdownEvent);
         }
@@ -142,6 +145,32 @@ namespace Sigma.Manager
             return values.ToArray();
         }
 
+        public Signal<dynamic>[] FindSignals(string Identifier)
+        {
+            List<Signal<dynamic>> foundSignals = new List<Signal<dynamic>>();
+            foreach(var signal in Signals)
+            {
+                if(signal.Equals(Identifier))
+                {
+                    foundSignals.Add(signal);
+                }
+            }
+
+            return foundSignals.ToArray();
+        }
+
+        public dynamic[] CallSignals(string Identifier, params object[] parameters)
+        {
+            List<dynamic> results = new List<dynamic>();
+            foreach(Signal<dynamic> signals in FindSignals(Identifier))
+            {
+                dynamic dynamicSend = signals.Send(parameters);
+                results.Add(dynamicSend);
+            }
+
+            return results.ToArray();
+        }
+
         /// <summary>
         /// Add a new Sequencer to the Sequencers, this will help you to call any method<br/>
         /// from a especific(or not) listener.
@@ -225,5 +254,6 @@ namespace Sigma.Manager
             Dispose();
         }
 
+     
     }
 }

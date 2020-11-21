@@ -15,8 +15,4 @@
     <PackageReference Include="YamlDotNet" Version="8.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Runtime\Core\Comunication\Listener\" />
-  </ItemGroup>
-
 </Project>
