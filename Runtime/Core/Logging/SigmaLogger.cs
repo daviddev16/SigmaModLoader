@@ -1,6 +1,5 @@
 ﻿using Sigma.Utils;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Sigma.Logging
@@ -17,13 +16,13 @@ namespace Sigma.Logging
 
         public IProvider Provider { get; private set; }
 
-        public SigmaLogger([NotNull] Type logType)
+        public SigmaLogger(Type logType)
         {
             Type = logType;
             Provider = DEFAULT_PROVIDER;
         }
 
-        public SigmaLogger([NotNull] Type logType, [NotNull] IProvider provider)
+        public SigmaLogger(Type logType, IProvider provider)
         {
             Type = logType;
             Provider = provider;

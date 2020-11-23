@@ -12,7 +12,6 @@ namespace Sigma.IO
     [Documented(true)]
     public sealed class FileUtils
     {
-
         /// <summary>
         /// Read and parse a File as YAML File.
         /// </summary>
@@ -20,7 +19,7 @@ namespace Sigma.IO
         /// <param name="FilePath"></param>
         /// <returns>The Dictionary provided by the YAML deserialize.</returns>
         /// 
-        public static Dictionary<string, object> ReadAsYAMLFile([NotNull] string FilePath)
+        public static Dictionary<string, object> ReadAsYAMLFile(string FilePath)
         {
             var deserializer = new Deserializer();
             FileStream stream = new FileStream(FilePath, FileMode.Open);
@@ -37,7 +36,7 @@ namespace Sigma.IO
         /// 
         /// <returns>if it's all qualificated</returns>
         /// 
-        public static bool CheckFileOrDirectory([NotNull] string FilePath, bool RAF, [NotNull] string NeededExtension)
+        public static bool CheckFileOrDirectory(string FilePath, bool RAF, string NeededExtension)
         {
             if(RAF)
             {
@@ -49,6 +48,7 @@ namespace Sigma.IO
                     }
                 }
             }
+
             else
             {
                 if(RequiredAsDirectory(FilePath))
@@ -71,7 +71,7 @@ namespace Sigma.IO
         /// 
         /// <returns>true if it is a File</returns>
         /// 
-        public static bool RequiredAsFile([NotNull] string FilePath)
+        public static bool RequiredAsFile(string FilePath)
         {
             return !RequiredAsDirectory(FilePath);
         }
@@ -84,7 +84,7 @@ namespace Sigma.IO
         /// 
         /// <returns>true If it is a Directory</returns>
         /// 
-        public static bool RequiredAsDirectory([NotNull] string FilePath)
+        public static bool RequiredAsDirectory(string FilePath)
         {
             return File.GetAttributes(FilePath).HasFlag(FileAttributes.Directory);
         }

@@ -6,7 +6,7 @@ namespace Sigma.Utils
     /// </summary>
     /// 
     [Documented(false)]
-    public interface SigmaConstants
+    public struct SigmaConstants
     {
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

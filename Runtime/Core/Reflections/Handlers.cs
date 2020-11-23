@@ -37,7 +37,7 @@ namespace Sigma.Reflections
         /// 
         /// Used internally in <seealso cref="ModManagerSystem.CallSequencer(Sequencer, object[])"/>.
         ///
-        public static InvokationResult<object> CallMethod([NotNull] object obj, [NotNull] MethodInfo methodInfo, object[] param = null)
+        public static InvokationResult<object> CallMethod(object obj, MethodInfo methodInfo, object[] param = null)
         {
             InvokationResult<object> Sender = new InvokationResult<object>();
             try

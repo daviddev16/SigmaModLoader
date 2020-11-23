@@ -31,7 +31,7 @@ namespace Sigma
             RootFolder = Path.GetDirectoryName(FilePath);
         }
 
-        public bool Equals([NotNull] SigmaConfiguration other)
+        public bool Equals(SigmaConfiguration other)
         {
             if(other != null)
             {

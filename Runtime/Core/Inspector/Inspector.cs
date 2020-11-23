@@ -23,7 +23,7 @@ namespace Sigma.Manager
 
         public SigmaConfiguration Configuration { get; private set; }
 
-        public Inspector([NotNull] string rootPath)
+        public Inspector(string rootPath)
         {
             RootFolderPath = Objects.RequireNotNull(ref rootPath, "Root path is invalid.");
 

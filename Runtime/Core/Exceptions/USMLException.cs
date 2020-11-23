@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Sigma
 {
@@ -7,14 +6,20 @@ namespace Sigma
     public class USMLException : Exception
     {
 
-        public USMLException() : base() { }
+        public USMLException()
+        {
+        }
 
-        public USMLException(string message) : base(message) { }
+        public USMLException(string message)
+            : base(message)
+        {
+        }
 
-        public USMLException(string message, Exception innerException) : base(message, innerException) { }
+        public USMLException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
 
-        protected USMLException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
     }
-
-
 }

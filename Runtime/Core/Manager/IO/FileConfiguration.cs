@@ -27,7 +27,7 @@ namespace Sigma.IO
         /// </summary>
         public Dictionary<string, object> Keys { get; private set; }
 
-        public FileConfiguration([NotNull] string FilePath)
+        public FileConfiguration(string FilePath)
         {
             if(!FileUtils.CheckFileOrDirectory(FilePath, true, ".yml"))
             {
@@ -72,7 +72,7 @@ namespace Sigma.IO
         /// <param name="key"></param>
         /// <returns>the actual int value</returns>
         /// 
-        public int GetInt([NotNull] string key)
+        public int GetInt(string key)
         {
             return ((int)GetValue(key));
         }
@@ -84,7 +84,7 @@ namespace Sigma.IO
         /// <param name="key"></param>
         /// <returns>the actual string value</returns>
         /// 
-        public string GetString([NotNull] string key)
+        public string GetString(string key)
         {
             return GetValue(key) as string;
         }
