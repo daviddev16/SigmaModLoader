@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Sigma Mod Loader")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("SigmaModLoader for Unity Engine")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Mantra")]
 [assembly: AssemblyProduct("Sigma Mod Loader")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]

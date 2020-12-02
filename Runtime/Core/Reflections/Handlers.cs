@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Sigma.Comunication;
 using Sigma.Logging;
@@ -53,7 +52,7 @@ namespace Sigma.Reflections
                 {
                     if(param == null)
                     {
-                        throw new NullReferenceException("missing " + parameterInfos.Length + "arguments.");
+                        throw new NullReferenceException("missing " + parameterInfos.Length + " arguments.");
                     }
                     /*if it's missing some arguments*/
                     else if(parameterInfos.Length > param.Length)
