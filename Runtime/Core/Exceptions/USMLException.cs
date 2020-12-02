@@ -6,7 +6,7 @@ namespace Sigma
     public class USMLException : Exception
     {
 
-        public USMLException()
+        public USMLException() : base()
         {
         }
 
@@ -19,7 +19,6 @@ namespace Sigma
             : base(message, inner)
         {
         }
-
 
     }
 }

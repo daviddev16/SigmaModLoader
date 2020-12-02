@@ -1,7 +1,6 @@
 ﻿using Sigma.IO;
 using Sigma.Utils;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace Sigma
@@ -17,11 +16,6 @@ namespace Sigma
         public string RootFolder { get; private set; }
 
         public SigmaConfiguration(string FilePath) : base(FilePath)
-        {
-            SetupAllKeys();
-        }
-
-        private void SetupAllKeys()
         {
             DriveClassPath = GetString(SigmaConstants.CONFIG_DRIVERCLASS_KEY);
             Version = GetString(SigmaConstants.CONFIG_VERSION_KEY);
