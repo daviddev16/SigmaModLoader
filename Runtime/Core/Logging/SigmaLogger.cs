@@ -8,7 +8,7 @@ namespace Sigma.Logging
     public class SigmaLogger : IValidator
     {
 
-        public static readonly IProvider DEFAULT_PROVIDER = new SigmaProvider();
+        public static IProvider DEFAULT_PROVIDER = new SigmaProvider();
 
         public static readonly int TITLE_CHARACTER_LIMIT = 70;
 

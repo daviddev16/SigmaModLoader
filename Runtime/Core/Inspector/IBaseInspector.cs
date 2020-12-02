@@ -13,7 +13,7 @@ namespace Sigma.Manager
 
         SigmaConfiguration GetConfiguration();
 
-        Assembly LoadAssembly();
+        string GetModLibrary();
     }
 
 }

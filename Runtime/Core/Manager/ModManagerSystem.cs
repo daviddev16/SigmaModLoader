@@ -22,7 +22,7 @@ namespace Sigma.Manager
 
         private List<Sequencer> Sequencers { get; set; }
 
-        private List<Signal<dynamic>> Signals { get; set; }
+        private List<Signal<object>> Signals { get; set; }
 
         /// <summary>
         /// Is ModManagerSystem Loaded?
@@ -145,9 +145,9 @@ namespace Sigma.Manager
             return values.ToArray();
         }
 
-        public Signal<dynamic>[] FindSignals(string Identifier)
+        public Signal<object>[] FindSignals(string Identifier)
         {
-            List<Signal<dynamic>> foundSignals = new List<Signal<dynamic>>();
+            List<Signal<object>> foundSignals = new List<Signal<object>>();
             foreach(var signal in Signals)
             {
                 if(signal.Equals(Identifier))
@@ -159,16 +159,21 @@ namespace Sigma.Manager
             return foundSignals.ToArray();
         }
 
-        public dynamic[] CallSignals(string Identifier, params object[] parameters)
+        public object[] CallSignals(string Identifier, params object[] parameters)
         {
-            List<dynamic> results = new List<dynamic>();
-            foreach(Signal<dynamic> signals in FindSignals(Identifier))
+            List<object> results = new List<object>();
+            foreach(Signal<object> signals in FindSignals(Identifier))
             {
-                dynamic dynamicSend = signals.Send(parameters);
+                object dynamicSend = signals.Send(parameters);
                 results.Add(dynamicSend);
             }
 
             return results.ToArray();
+        }
+
+        public void AddSignal(Signal<object> signal)
+        {
+            Signals.Add(signal);
         }
 
         /// <summary>

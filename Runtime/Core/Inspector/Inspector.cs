@@ -29,7 +29,7 @@ namespace Sigma.Manager
 
             LibrariesFolderPath = Path.Combine(RootFolderPath, SigmaConstants.LIBRARIES_FOLDER);
             ConfigurationFilePath = Path.Combine(RootFolderPath, SigmaConstants.SIGMACONFIG_FILE);
-
+           
             Name = Path.GetFileName(RootFolderPath);
         }
 
@@ -106,10 +106,9 @@ namespace Sigma.Manager
             return false;
         }
 
-        public Assembly LoadAssembly()
+        public string GetModLibrary()
         {
-            string modLibraryPath = Directory.GetFiles(LibrariesFolderPath)[0];
-            return Assembly.LoadFile(modLibraryPath);
+            return Directory.GetFiles(LibrariesFolderPath)[0];
         }
 
         public string GetRootPath()

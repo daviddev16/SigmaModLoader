@@ -82,10 +82,11 @@ namespace Sigma
         {
             try
             {
-                Assembly assembly = baseInspector.LoadAssembly();
                 SigmaConfiguration Config = baseInspector.GetConfiguration();
 
-                BaseMod ModInstance = (BaseMod)assembly.CreateInstance(Config.DriveClassPath);
+                Assembly assembly = Assembly.LoadFile(baseInspector.GetModLibrary());
+                Type ModType = assembly.GetType(Config.DriveClassPath);
+                BaseMod ModInstance = Activator.CreateInstance(ModType) as BaseMod;
 
                 if(ModInstance != null)
                 {
@@ -97,9 +98,10 @@ namespace Sigma
                     Logger.LogFail("Mod instance was null.");
                 }
             }
-            catch(Exception e)
+            catch(Exception)
             {
-                Logger.LogError("Something goes wrong while processing.", e, false);
+                throw;
+                //Logger.LogError("Something goes wrong while processing.", e, false);
             }
         }
 

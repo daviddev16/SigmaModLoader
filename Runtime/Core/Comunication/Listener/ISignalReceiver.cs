@@ -2,8 +2,8 @@
 {
     public interface ISignalReceiver
     {
-        Signal<dynamic>[] FindSignals(string Identifier);
+        Signal<object>[] FindSignals(string Identifier);
 
-        dynamic[] CallSignals(string Identifier, params object[] parameters);
+        object[] CallSignals(string Identifier, params object[] parameters);
     }
 }

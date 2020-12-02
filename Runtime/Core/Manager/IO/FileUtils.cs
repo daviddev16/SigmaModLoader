@@ -38,11 +38,17 @@ namespace Sigma.IO
         /// 
         public static bool CheckFileOrDirectory(string FilePath, bool RAF, string NeededExtension)
         {
+
+            if(!File.Exists(FilePath))
+            {
+                return false;
+            }
+
             if(RAF)
             {
                 if(RequiredAsFile(FilePath))
                 {
-                    if(File.Exists(FilePath) && Path.GetExtension(FilePath).Equals(NeededExtension))
+                    if(Path.GetExtension(FilePath).Equals(NeededExtension))
                     {
                         return true;
                     }
@@ -53,10 +59,7 @@ namespace Sigma.IO
             {
                 if(RequiredAsDirectory(FilePath))
                 {
-                    if(Directory.Exists(FilePath))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 

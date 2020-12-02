@@ -39,9 +39,9 @@ namespace Sigma.IO
                 this.FilePath = Objects.RequireNotNull(ref FilePath, "File path is null.");
                 Reload();
             }
-            catch(Exception)
+            catch(Exception e)
             {
-                Logger.LogError("Failed on loading \"" + Path.GetFileName(FilePath) + "\"");
+                Logger.LogError("Failed on loading \"" + Path.GetFileName(FilePath) + "\"", e, false);
             }
         }
 
@@ -77,7 +77,6 @@ namespace Sigma.IO
             return ((int)GetValue(key));
         }
 
-
         /// <summary>
         /// Get a string value from a respective key
         /// </summary>
@@ -86,7 +85,7 @@ namespace Sigma.IO
         /// 
         public string GetString(string key)
         {
-            return GetValue(key) as string;
+            return ((string)GetValue(key));
         }
 
         private object GetValue(string key)
