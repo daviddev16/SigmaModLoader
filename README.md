@@ -1,4 +1,2 @@
-# SigmaModLoader
-"Sigma Mod Loader" will help you to create a basic mod loader system to your game.
-
-![Sigma Diagram](https://i.imgur.com/1Dj5u37.jpg)
+# SigmaModLoader [Alpha]
+Sigma Mod Loader create a connection between your library and the unity game using reflections.
