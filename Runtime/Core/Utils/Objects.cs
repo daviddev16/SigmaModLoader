@@ -64,13 +64,8 @@ namespace Sigma.Utils
             }
             if(obj == null && throwException)
             {
-                if(inner == null)
-                {
-                    throw new NullReferenceException(message);
-                }
                 throw new NullReferenceException(message, inner);
             }
-
             return default;
         }
 

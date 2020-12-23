@@ -45,7 +45,7 @@ namespace Sigma.Logging
         public void LogBlankLine(int height = 1)
         {
             PreCheckLog();
-            Provider.LogBlankLine();
+            Provider.LogBase("");
         }
 
         public void LogFail(string message, string reason = "Unknown")
