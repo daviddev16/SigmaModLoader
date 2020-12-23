@@ -96,7 +96,7 @@ namespace Sigma.API
             /*New MethodCaller that will handle the listener*/
             MethodCaller Caller = new MethodCaller(listener, method);
 
-            if(Caller.Validate())
+            if(Caller.isMethodValid())
             {
                 Callers.Add(Caller);
                 return;
@@ -104,7 +104,6 @@ namespace Sigma.API
 
             Logger.LogError("Invalid caller.");
             Logger.LogError("MethodCaller is unable to access the MethodInfo from " + nameof(listener));
-
         }
 
         /// <summary>

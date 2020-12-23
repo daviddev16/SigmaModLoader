@@ -25,7 +25,7 @@ namespace Sigma.IO
         /// <summary>
         /// The Dictionary parsed from the YAML deserializer.
         /// </summary>
-        public Dictionary<string, object> Keys { get; private set; }
+        public Dictionary<string, object> Mapping { get; private set; }
 
         public FileConfiguration(string FilePath)
         {
@@ -52,7 +52,7 @@ namespace Sigma.IO
         /// 
         private void Load(string FilePath)
         {
-            Keys = FileUtils.ReadAsYAMLFile(FilePath);
+            Mapping = FileUtils.ReadAsYAMLFile(FilePath);
         }
 
         /// <summary>
@@ -65,39 +65,5 @@ namespace Sigma.IO
                 Load(FilePath);
             }
         }
-
-        /// <summary>
-        /// Get an int value from a respective key
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns>the actual int value</returns>
-        /// 
-        public int GetInt(string key)
-        {
-            return ((int)GetValue(key));
-        }
-
-        /// <summary>
-        /// Get a string value from a respective key
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns>the actual string value</returns>
-        /// 
-        public string GetString(string key)
-        {
-            return ((string)GetValue(key));
-        }
-
-        private object GetValue(string key)
-        {
-            Objects.RequireNotNull(ref key, "The key cannot be null.");
-            object OutObject = null;
-            if(Keys.TryGetValue(key, out OutObject))
-            {
-                return OutObject;
-            }
-            return null;
-        }
-
     }
 }

@@ -91,7 +91,7 @@ namespace Sigma
                 if(ModInstance != null)
                 {
                     ModInstance.Use(Config, this);
-                    ModManagerSystem.InsertMod(ref ModInstance);
+                    ModManagerSystem.AddMod(ref ModInstance);
                 }
                 else
                 {

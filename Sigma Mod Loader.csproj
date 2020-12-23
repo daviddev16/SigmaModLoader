@@ -45,15 +45,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\Core\API\BaseMod.cs" />
     <Compile Include="Runtime\Core\Attributes\DocumentedAttribute.cs" />
     <Compile Include="Runtime\Core\Comunication\Listener\ISignalReceiver.cs" />
     <Compile Include="Runtime\Core\Comunication\Listener\Signal.cs" />
-    <Compile Include="Runtime\Core\Comunication\Sequencer\ISequencerExecutor.cs" />
-    <Compile Include="Runtime\Core\Comunication\Sequencer\MethodCaller.cs" />
-    <Compile Include="Runtime\Core\Comunication\Sequencer\Sequencer.cs" />
+    <Compile Include="Runtime\Core\Comunication\MethodCaller.cs" />
     <Compile Include="Runtime\Core\Config\SigmaConfiguration.cs" />
     <Compile Include="Runtime\Core\Exceptions\USMLException.cs" />
     <Compile Include="Runtime\Core\Inspector\IBaseInspector.cs" />

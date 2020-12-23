@@ -34,9 +34,7 @@ namespace Sigma.Reflections
         /// <exception cref="NullReferenceException">Missing arguments or null array</exception>
         /// <exception cref="InvalidOperationException">Missing parameters or Parameter limit exceeded</exception>
         /// 
-        /// Used internally in <seealso cref="ModManagerSystem.CallSequencer(Sequencer, object[])"/>.
-        ///
-        public static InvokationResult<object> CallMethod(object obj, MethodInfo methodInfo, object[] param = null)
+        public static InvokationResult<object> InvokeMethod(object obj, MethodInfo methodInfo, object[] param = null)
         {
             InvokationResult<object> Sender = new InvokationResult<object>();
             try
@@ -88,7 +86,7 @@ namespace Sigma.Reflections
         }
 
         /// <summary>
-        /// Invoke a MethodCaller this method use <see cref="Call(MethodCaller, ref object[])"/> function to work.
+        /// Invoke a MethodCaller this method use <see cref="InvokeMethod(object, MethodInfo, object[])"/> function to work.
         /// </summary>
         /// 
         /// <param name="caller">The MethodCaller</param>
@@ -99,12 +97,9 @@ namespace Sigma.Reflections
         /// of the invokation
         /// </returns>
         /// 
-        /// Used internally in <seealso cref="ModManagerSystem.CallSequencer(Sequencer, object[])"/>.
-        ///
-        public static InvokationResult<object> Call(MethodCaller caller, ref object[] parameters)
+        public static InvokationResult<object> Call(MethodCaller caller, object[] parameters)
         {
-            Objects.RequireNotNull(ref caller, "the passed MethodCaller is null");
-            return CallMethod(caller.GetListener(), caller.GetMethodInfo(), parameters);
+            return InvokeMethod(caller.Listener, caller.GetMethodInfo(), parameters);
         }
 
     }
