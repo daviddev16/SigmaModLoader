@@ -120,7 +120,7 @@ namespace Sigma.API
         {
             this.ModLoader = ModLoader;
             this.Configuration = Configuration;
-            this.Callers = new List<MethodCaller>();
+            Callers = new List<MethodCaller>();
         }
     }
 }
