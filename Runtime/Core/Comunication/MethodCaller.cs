@@ -1,38 +1,13 @@
-﻿using Sigma.Utils;
-using System;
+﻿using System;
 using System.Reflection;
 
 namespace Sigma.Comunication
 {
     public sealed class MethodCaller
     {
+        public object Listener { get; private set; }
 
-        private object listener;
-        private string methodName;
-
-        public object Listener 
-        { 
-            get
-            {
-                return listener;
-            } 
-            private set 
-            {
-                listener = value;
-            } 
-        }
-
-        public string MethodName
-        {
-            get
-            {
-                return methodName;
-            }
-            private set
-            {
-                methodName = value;
-            }
-        }
+        public string MethodName { get; private set; }
 
         public MethodCaller(object listener, string methodName)
         {
@@ -46,7 +21,7 @@ namespace Sigma.Comunication
             {
                 return null;
             }
-            Type listenerType = listener.GetType();
+            Type listenerType = Listener.GetType();
             return listenerType.GetMethod(MethodName, BindingFlags.Public);
         }
 

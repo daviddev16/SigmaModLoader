@@ -5,10 +5,8 @@ using System.IO;
 
 namespace Sigma.Manager
 {
-
     public sealed class Inspector : IBaseInspector
     {
-
         private readonly static SigmaLogger Logger = new SigmaLogger(typeof(Inspector));
 
         private string RootFolderPath = null;
@@ -35,7 +33,6 @@ namespace Sigma.Manager
         public bool Validate()
         {
             Logger.LogInformation("Reading folder \"" + Name + "\"...");
-
             if(CheckFiles())
             {
                 Configuration = new SigmaConfiguration(ConfigurationFilePath);
@@ -53,7 +50,6 @@ namespace Sigma.Manager
                     return false;
                 }
             }
-
             return true;
         }
 
@@ -61,32 +57,27 @@ namespace Sigma.Manager
         {
             try
             {
-
                 if(!Directory.Exists(RootFolderPath))
                 {
                     Logger.LogError("The root folder doesn't exists.");
                     return false;
                 }
-
                 if(!Directory.Exists(LibrariesFolderPath))
                 {
                     Logger.LogError("The libraries folder doesn't exists");
                     return false;
                 }
-
                 if(!File.Exists(ConfigurationFilePath))
                 {
                     Logger.LogError("Configuration file doesn't exists.");
                     return false;
                 }
-
             }
             catch(Exception e)
             {
                 Logger.LogError("Something goes wrong while processing.", e, false);
                 return false;
             }
-
             return true;
         }
 
@@ -100,7 +91,6 @@ namespace Sigma.Manager
                     return true;
                 }
             }
-
             return false;
         }
 

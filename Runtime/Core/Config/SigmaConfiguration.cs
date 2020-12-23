@@ -17,26 +17,32 @@ namespace Sigma
 
         public SigmaConfiguration(string FilePath) : base(FilePath)
         {
-            DriveClassPath = GetString(SigmaConstants.CONFIG_DRIVERCLASS_KEY);
-            Version = GetString(SigmaConstants.CONFIG_VERSION_KEY);
-            Name = GetString(SigmaConstants.CONFIG_NAME_KEY);
-            Description = GetString(SigmaConstants.CONFIG_DESCRIPTION_KEY);
-
-            RootFolder = Path.GetDirectoryName(FilePath);
+            try
+            {
+                RootFolder = Path.GetDirectoryName(FilePath);
+                DriveClassPath = GetValueAsString(SigmaConstants.CONFIG_DRIVERCLASS_KEY);
+                Version = GetValueAsString(SigmaConstants.CONFIG_VERSION_KEY);
+                Name = GetValueAsString(SigmaConstants.CONFIG_NAME_KEY);
+                Description = GetValueAsString(SigmaConstants.CONFIG_DESCRIPTION_KEY);
+            }
+            catch(Exception) { }
         }
 
         public bool Equals(SigmaConfiguration other)
         {
             if(other != null)
             {
-                return other.Name.Equals(Name) && other.Version.Equals(Version) || (other.FilePath.Equals(other.FilePath));
+                return other.Name.Equals(Name) && other.Version.Equals(Version) 
+                    || (other.FilePath.Equals(other.FilePath));
             }
             throw new NullReferenceException("other cannot be null.");
         }
 
         public bool Validate()
         {
-            if(string.IsNullOrEmpty(DriveClassPath) || string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Version))
+            if(string.IsNullOrEmpty(DriveClassPath) || 
+                string.IsNullOrEmpty(Name) || 
+                string.IsNullOrEmpty(Version))
             {
                 return false;
             }
@@ -46,7 +52,7 @@ namespace Sigma
 
         public string GetFullName()
         {
-            return string.Concat(Name, " ", Version);
+            return string.Concat(Name, " ", Version).Trim();
         }
     }
 }

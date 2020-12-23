@@ -10,6 +10,7 @@ namespace Sigma.API
     /// With this class you can develop your own custom modification using the SigmaFramework
     /// </summary>
     /// 
+    [Documented(false)]
     public abstract class BaseMod
     {
         private readonly static SigmaLogger Logger = new SigmaLogger(typeof(BaseMod));
@@ -32,10 +33,8 @@ namespace Sigma.API
                     configuration = value;
                     return;
                 }
-
                 Logger.LogFail("Configuration is set internally by the system.");
             }
-
         }
 
         /// <summary>
@@ -55,7 +54,6 @@ namespace Sigma.API
 
                 Logger.LogFail("ModLoader is set internally by the system.");
             }
-
         }
 
         /// <summary>
@@ -75,46 +73,6 @@ namespace Sigma.API
 
                 Logger.LogFail("Callers are set internally by the system.");
             }
-
-        }
-
-        /// <summary>
-        /// Register new type that will be handled by a MethodCaller
-        /// </summary>
-        /// 
-        /// <param name="listener">The listener object</param>
-        /// <param name="method">The method name used by MethodCaller</param>
-        ///
-        public void RegisterCaller<E>(E listener, string method)
-        {
-            if(listener == null)
-            {
-                Logger.LogCritical("Registered type cannot be null");
-                return;
-            }
-
-            /*New MethodCaller that will handle the listener*/
-            MethodCaller Caller = new MethodCaller(listener, method);
-
-            if(Caller.isMethodValid())
-            {
-                Callers.Add(Caller);
-                return;
-            }
-
-            Logger.LogError("Invalid caller.");
-            Logger.LogError("MethodCaller is unable to access the MethodInfo from " + nameof(listener));
-        }
-
-        /// <summary>
-        /// Get all necessary stuff to load the Modification.
-        /// </summary>
-        /// 
-        public virtual void Use(SigmaConfiguration Configuration, SigmaLoader ModLoader)
-        {
-            this.ModLoader = ModLoader;
-            this.Configuration = Configuration;
-            this.Callers = new List<MethodCaller>();
         }
 
         /// <summary>
@@ -129,5 +87,40 @@ namespace Sigma.API
         /// 
         public abstract void OnDisable();
 
+        /// <summary>
+        /// Register new type that will be handled by a MethodCaller
+        /// </summary>
+        /// 
+        /// <param name="Listener">The listener object</param>
+        /// <param name="Method">The method name used by MethodCaller</param>
+        ///
+        public virtual void RegisterCaller<E>(E Listener, string Method)
+        {
+            if(Listener == null)
+            {
+                Logger.LogCritical("Registered type cannot be null");
+                return;
+            }
+            /*New MethodCaller that will handle the listener*/
+            MethodCaller Caller = new MethodCaller(Listener, Method);
+            if(Caller.isMethodValid())
+            {
+                Callers.Add(Caller);
+                return;
+            }
+            Logger.LogError("Invalid caller.");
+            Logger.LogError("MethodCaller is unable to access the MethodInfo from " + nameof(Listener));
+        }
+
+        /// <summary>
+        /// Get all necessary stuff to load the Modification.
+        /// </summary>
+        /// 
+        public virtual void Use(SigmaConfiguration Configuration, SigmaLoader ModLoader)
+        {
+            this.ModLoader = ModLoader;
+            this.Configuration = Configuration;
+            this.Callers = new List<MethodCaller>();
+        }
     }
 }

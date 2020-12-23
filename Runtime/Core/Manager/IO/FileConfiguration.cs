@@ -45,6 +45,19 @@ namespace Sigma.IO
             }
         }
 
+        public string GetValueAsString(string key)
+        {
+            if(Mapping.ContainsKey(key))
+            {
+                object outValue = null;
+                if(Mapping.TryGetValue(key, out outValue))
+                {
+                    return (outValue as string);
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Load the file as an YAML dictionary
         /// </summary>

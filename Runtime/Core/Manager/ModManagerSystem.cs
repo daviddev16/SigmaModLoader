@@ -34,7 +34,7 @@ namespace Sigma.Manager
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnShutdownEvent);
         }
 
-        public List<object> Handle(string methodName, params object[] parameters)
+        public List<object> InvokeMethod(string methodName, params object[] parameters)
         {
             if(ContainsMethodCaller(methodName))
             {

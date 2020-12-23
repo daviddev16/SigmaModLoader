@@ -2,7 +2,6 @@
 
 namespace Sigma
 {
-
     /// <summary>
     /// This attribute helps to indentify the documented classes/structures.
     /// </summary>
@@ -10,7 +9,6 @@ namespace Sigma
     [Documented(true)]
     public class DocumentedAttribute : Attribute
     {
-
         private bool Done;
 
         /// <param name="done">if this class/struct is well-documented or complete</param>
@@ -18,7 +16,7 @@ namespace Sigma
         {
             this.Done = done;
         }
-
+        
         /// <summary>
         /// returns if it's documented.
         /// </summary>
@@ -26,6 +24,5 @@ namespace Sigma
         {
             return Done;
         }
-
     }
 }

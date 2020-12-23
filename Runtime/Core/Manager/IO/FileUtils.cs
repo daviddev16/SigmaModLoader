@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using YamlDotNet.Serialization;
 
@@ -38,12 +37,10 @@ namespace Sigma.IO
         /// 
         public static bool CheckFileOrDirectory(string FilePath, bool RAF, string NeededExtension)
         {
-
             if(!File.Exists(FilePath))
             {
                 return false;
             }
-
             if(RAF)
             {
                 if(RequiredAsFile(FilePath))
@@ -54,7 +51,6 @@ namespace Sigma.IO
                     }
                 }
             }
-
             else
             {
                 if(RequiredAsDirectory(FilePath))
@@ -62,7 +58,6 @@ namespace Sigma.IO
                     return true;
                 }
             }
-
             return false;
         }
 
