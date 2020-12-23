@@ -4,11 +4,9 @@ using System.Text;
 
 namespace Sigma.Logging
 {
-
-    public class SigmaLogger : IValidator
+    public sealed class SigmaLogger : IValidator
     {
-
-        public static IProvider DEFAULT_PROVIDER = new SigmaProvider();
+        private static IProvider DEFAULT_PROVIDER = new SigmaProvider();
 
         public static readonly int TITLE_CHARACTER_LIMIT = 70;
 
@@ -32,9 +30,7 @@ namespace Sigma.Logging
         {
             PreCheckLog();
             Level level = (IsCritical) ? Level.CRITICAL : Level.ERROR;
-
             Provider.LogBase(message, level, Type);
-
             if(e != null)
             {
                 Provider.LogBase(e.GetType().Name + ": " + e.Message, level, Type);
@@ -133,6 +129,14 @@ namespace Sigma.Logging
             if(!Validate())
             {
                 throw new InvalidOperationException("Missing provider in logging.");
+            }
+        }
+
+        public static void SetDefaultProvider(IProvider provider)
+        {
+            if(provider != DEFAULT_PROVIDER)
+            {
+                DEFAULT_PROVIDER = provider;
             }
         }
     }
