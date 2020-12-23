@@ -11,7 +11,7 @@ you can call all these events  creating a persistent library for mod creators us
 # Short example
 
 ![Code example 1](https://i.imgur.com/Di2qNnV.png)
-
+          
 The code from the mod project:
 
 ![Code example 2](https://i.imgur.com/JW7nydg.png)
