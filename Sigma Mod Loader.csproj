@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\Core\API\BaseMod.cs" />
     <Compile Include="Runtime\Core\API\SigmaBehaviour.cs" />
+    <Compile Include="Runtime\Core\API\UnityProvider.cs" />
     <Compile Include="Runtime\Core\Attributes\DocumentedAttribute.cs" />
     <Compile Include="Runtime\Core\Comunication\ISignalReceiver.cs" />
     <Compile Include="Runtime\Core\Comunication\Signal.cs" />
