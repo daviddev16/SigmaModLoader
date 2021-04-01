@@ -1,7 +1,9 @@
+# Quick Update
+[Check it out](https://github.com/mantrabr/SigmaModLoader/issues/6)
+
 # SigmaModLoader _Experimental (Pre-Alpha)_
 Sigma Mod Loader is a _experimental_ unity-game library that can help you on building an embbed mod system easily.
 
-![Logo](https://i.imgur.com/DkuLnQS.png)
 
 # Overview
 I have developed this library for those who want to implement a mod system in their own games easier. This library use 2 methods of comunication:
