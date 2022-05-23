@@ -30,11 +30,4 @@ I'm try to make this project stable and useful for anyone who want to implement 
 i will be posting a sample project/code soon.
 
 # Soon
-- [ ] All API classes **documented**.
-- [ ] `VirtualBehaviour` built-in.
-- [ ] The whole project available in library file _(.dll)_
-- [ ] Utility classes that can helps the communication with the UnityEngine library.
-- [ ] Sample projects for study purpose only.
 
-# Thank you!
-thank you for taking your time to read this! I just want to do something useful for game devs.
